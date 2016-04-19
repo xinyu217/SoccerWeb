@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <style type="text/css">
+            svg {
+                top: 50px;
+                left: 50px;
+                border: solid 1px #aaa;
+                background-image: url("{{ url_for('static', filename='soccerGrassField.jpg') }}");
+                height: 680px;
+                width: 1050px;
+                position: fixed;
+            }
+        
+
+        
+            </style>
+    </head>
+    <body>
+        
+        <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='moveCircles.js') }}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+        
+        <!--
+        <div id="checks">
+            X-axis:<input type="checkbox" id="xChecked" checked/>
+            Y-axis:<input type="checkbox" id="yChecked" checked/>
+        </div> -->
+        
+        <!--<input type="range" id="timeScrub" value="0" min="0" max="20000"  onchange="updateTextInput(this.value);" form="gameSelect" style="width:720px;position:fixed;top:770px;left:250px;"/> -->
+        <input type="range" id="timeScrub" value="0" min="0" max="28000" step="1"  onchange="showData;" form="gameSelect" style="width:720px;position:fixed;top:770px;left:250px;"/>
+        <input type="range" id="trajLength" value="3" min="1" max="5" style="width:150px;position:fixed;top:770px;left:50px;"/>
+        
+        <!-- This is the play button -->
+        <button type="button" id="playGameBtn" size="30" style="position:fixed;top:30px;left:175px;">PLAY/PAUSE</button>
+
+    
+        
+        <script type="text/javascript">
+            $(function() {
+              $("#playGameBtn").click(function() {
+                 $.ajax({
+                      type: "GET",
+                      url: $SCRIPT_ROOT + "/getInitialData/",
+                      contentType: "application/json; charset=utf-8",
+                      data: { timeVal: "0"}, // should be passing information here
+                      success: function(data) {
+                         //$('#outResult').text(data.value);
+                         // do stuff here...replot the court
+                         console.log("POO");
+                         console.log(data);
+                         
+                         // get the number of frames here
+                         console.log(data['noFrames'])
+                         // update the slider values
+                         //console.log($('#timeScrub').val())
+                         var maxValue = document.getElementById("timeScrub");
+                         maxValue.max = data['noFrames']
+                         console.log(maxValue.max)
+                         console.log(maxValue.value)
+                         
+                         d3.select("svg").selectAll(".draggableCircleHomeA01").remove();
+                         d3.select("svg").selectAll(".draggableCircleHomeA02").remove();
+                         d3.select("svg").selectAll(".draggableCircleHomeA03").remove();
+                         d3.select("svg").selectAll(".draggableCircleHomeA04").remove();
+                         d3.select("svg").selectAll(".draggableCircleHomeA05").remove();
+                         d3.select("svg").selectAll(".draggableCircleHomeA06").remove();
+                         d3.select("svg").selectAll(".draggableCircleHomeA07").remove();
+                         d3.select("svg").selectAll(".draggableCircleHomeA08").remove();
+                         d3.select("svg").selectAll(".draggableCircleHomeA09").remove();
+                         d3.select("svg").selectAll(".draggableCircleHomeA10").remove();
+                         d3.select("svg").selectAll(".draggableCircleHomeA11").remove();
+                         
+                         d3.select("svg").selectAll(".draggableCircleAwayB01").remove();
+                         d3.select("svg").selectAll(".draggableCircleAwayB02").remove();
+                         d3.select("svg").selectAll(".draggableCircleAwayB03").remove();
+                         d3.select("svg").selectAll(".draggableCircleAwayB04").remove();
+                         d3.select("svg").selectAll(".draggableCircleAwayB05").remove();
+                         d3.select("svg").selectAll(".draggableCircleAwayB06").remove();
+                         d3.select("svg").selectAll(".draggableCircleAwayB07").remove();
+                         d3.select("svg").selectAll(".draggableCircleAwayB08").remove();
+                         d3.select("svg").selectAll(".draggableCircleAwayB09").remove();
+                         d3.select("svg").selectAll(".draggableCircleAwayB10").remove();
+                         d3.select("svg").selectAll(".draggableCircleAwayB11").remove();
+                         
+                         // function to replot - this is in the moveCircles js file
+                         plotPlayerPos(data)
+                      }
+                  });
+            });
+         });
+        </script>
+        
+        <!-- Get the retrieve button -->
+        <button type="button" id="retrieveBtn" size="30" style="position:fixed;top:30px;left:775px;">RETRIEVE</button>
+        
+        <!-- get the trajectory data from the interface 
+         make sure it has the time window included so we can fix/interpolate for that window-->
+        <script type="text/javascript">
+            $(function() {
+              $("#retrieveBtn").click(function() {
+                  $.ajax({
+                      type: "POST",
+                      url: $SCRIPT_ROOT + "/retrieveData/",
+                      contentType: "application/json; charset=utf-8",
+                      dataType:"json",
+                         //data: JSON.stringify({ trajLength: $('#trajLength').val(), trajVecHomePG: trajVecHomePG, trajVecHomeSG: trajVecHomeSG, trajVecHomeC: trajVecHomeC, trajVecHomeSF: trajVecHomeSF, trajVecHomePF: trajVecHomePF, trajVecAwayPG: trajVecAwayPG, trajVecAwaySG: trajVecAwaySG, trajVecAwayC: trajVecAwayC, trajVecAwaySF: trajVecAwaySF, trajVecAwayPF: trajVecAwayPF, trajVecBall: trajVecBall }),
+                      success: function(data) {
+                         console.log("Here we will spit back the results");
+                      }
+                         
+                  });
+                                      
+                });
+            });
+            
+            // we have to get the data from the browser - the svg data
+            //console.log(trajVecHomePG);
+
+        </script>
+   
+   
+        <!-- We want to give the retrieved results in a drop-down box - need javascript to populate it -->
+        <label style="position:fixed;top:800px;left:470px;">Retrieved Results</label>
+        <select style="position:fixed;top:820px;left:470px;width:100px" id=playID>
+            <option value="Play1">Play 1</option>
+            <option value="Play2">Play 2</option>
+            <option value="Play3">Play 3</option>
+            <option value="Play4">Play 4</option>
+            <option value="Play5">Play 5</option>
+        </select>
+        
+        <!-- Show retrieved plays button -->
+        <button type="button" id="showRetrieveBtn" size="30" style="position:fixed;top:820px;left:590px;">RUN</button>
+        
+        <!-- Here we want to link to the chooseGameBtn, which takes in select box as input -->
+        <script type="text/javascript">
+            $(function() {
+            //$("#showRetrieveBtn").click(function(){
+              $("#timeScrub").click(function() {
+                                        // get current time
+                                        var inTime = $('#timeScrub').val()
+                                        $.ajax({
+                                               type: "GET",
+                                               url: $SCRIPT_ROOT + "/getFrameData/",
+                                               contentType: "application/json; charset=utf-8",
+                                               data: { time: inTime},
+                                               success: function(data) {
+                                               
+                                               // we need to remove current players and their trajectories
+                                               d3.select("svg").selectAll(".draggableCircleHomeA01").remove();
+                                               d3.select("svg").selectAll(".draggableCircleHomeA02").remove();
+                                               d3.select("svg").selectAll(".draggableCircleHomeA03").remove();
+                                               d3.select("svg").selectAll(".draggableCircleHomeA04").remove();
+                                               d3.select("svg").selectAll(".draggableCircleHomeA05").remove();
+                                               d3.select("svg").selectAll(".draggableCircleHomeA06").remove();
+                                               d3.select("svg").selectAll(".draggableCircleHomeA07").remove();
+                                               d3.select("svg").selectAll(".draggableCircleHomeA08").remove();
+                                               d3.select("svg").selectAll(".draggableCircleHomeA09").remove();
+                                               d3.select("svg").selectAll(".draggableCircleHomeA10").remove();
+                                               d3.select("svg").selectAll(".draggableCircleHomeA11").remove();
+                                               
+                                               d3.select("svg").selectAll(".draggableCircleAwayB01").remove();
+                                               d3.select("svg").selectAll(".draggableCircleAwayB02").remove();
+                                               d3.select("svg").selectAll(".draggableCircleAwayB03").remove();
+                                               d3.select("svg").selectAll(".draggableCircleAwayB04").remove();
+                                               d3.select("svg").selectAll(".draggableCircleAwayB05").remove();
+                                               d3.select("svg").selectAll(".draggableCircleAwayB06").remove();
+                                               d3.select("svg").selectAll(".draggableCircleAwayB07").remove();
+                                               d3.select("svg").selectAll(".draggableCircleAwayB08").remove();
+                                               d3.select("svg").selectAll(".draggableCircleAwayB09").remove();
+                                               d3.select("svg").selectAll(".draggableCircleAwayB10").remove();
+                                               d3.select("svg").selectAll(".draggableCircleAwayB11").remove();
+                                               
+                                               // function to replot - this is in the moveCircles js file
+                                               plotPlayerPos(data)
+                                               
+                                               //update the slider with next number
+                                               console.log(inTime)
+                                               var maxValue = document.getElementById("timeScrub");
+                                               
+                                               maxValue.val = parseInt(inTime)+1;
+                                               console.log(maxValue.val)
+
+
+                                               }
+                                               });
+                                        });
+              });
+            </script>
+
+            <!-- Show retrieved plays button -->
+            <button type="button" id="predictionBtn" size="30" style="position:fixed;top:30px;left:530px;">PREDICTION</button>
+
+
+            <!-- Here we want to link to the chooseGameBtn, which takes in select box as input -->
+            <script type="text/javascript">
+                $(function() {
+                  $("#predictionBtn").click(function() {
+                                  $.ajax({
+                                         type: "GET",
+                                         url: $SCRIPT_ROOT + "/doPrediction/",
+                                         contentType: "application/json; charset=utf-8",
+                                         data: { value: "10"},
+                                         success: function(data) {
+                                         //
+                                         console.log("gets to here")
+                                         
+                                         }
+                                         });
+                                  });
+      });
+    </script>
+
+
+
+
+
+    </body>
+</html>

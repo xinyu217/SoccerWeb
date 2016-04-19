@@ -1,0 +1,81 @@
+import sqlite3
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy
+import scipy.ndimage
+
+def visualizeGame():
+
+    # connect to the database
+    dbFileName = "/Users/Felix/Dropbox/POC-exampleGames/Manchester City v FC Bayern Munchen-20131002/database.db"
+    
+    # connect to the database
+    conn = sqlite3.connect(dbFileName)
+    c = conn.cursor()
+    
+    # get all the times, then cycle through them
+    cur = c.execute('SELECT DISTINCT time FROM mancityVbayern WHERE half = ("First Half")')
+    firstHalfTimeStamps = cur.fetchall()
+    
+    #print firstHalfTimeStamps
+    
+    cur = c.execute('SELECT DISTINCT time FROM mancityVbayern WHERE half = ("Second Half")')
+    secondHalfTimeStamps = cur.fetchall()
+
+    #print secondHalfTimeStamps
+    
+    
+    # now go through first half
+    for frameVal in firstHalfTimeStamps:
+        
+        print frameVal[0]
+        
+        # do query to get frame data
+        cur = c.execute("""SELECT * FROM mancityVbayern WHERE time = (? )""", frameVal)
+        frameData = cur.fetchall()
+        
+
+        print frameData
+
+
+
+def plotOcc():
+    
+    # connect to the database
+    dbFileName = "/Users/LUCEYMACPRO/Dropbox/Data-Patrick/ProzoneData/newProzoneData/POC-exampleGames/Manchester City v FC Bayern Munchen-20131002/database.db"
+    
+    # connect to the database
+    conn = sqlite3.connect(dbFileName)
+    c = conn.cursor()
+    
+    # get all the times, then cycle through them
+    #cur = c.execute('SELECT xPos, yPos FROM mancityVbayern WHERE half = ("First Half") AND clubName = ("Manchester City")')
+    cur = c.execute('SELECT xPos, yPos FROM mancityVbayern WHERE half = ("First Half")')
+    # this gives a list
+    mancityFirstHalfLoc = cur.fetchall()
+
+    #print mancityFirstHalfLoc
+    
+    # specify the occupancy map - center 60x40 - need to add these
+    occMap = np.zeros((121,81))
+
+    # now go through and fill up the occupancy map - set the spatial field
+    for locations in mancityFirstHalfLoc:
+        print locations[0], locations[1]
+
+        # just add
+        occMap[np.floor(locations[0]+60)][np.floor(locations[1]+40)] = occMap[np.floor(locations[0]+60)][np.floor(locations[1]+40)] + 1
+
+
+    # apply a filter here
+    blurredOccMap = np.zeros((121,81))
+    scipy.ndimage.filters.gaussian_filter(occMap, 10, order=0, output=blurredOccMap, mode='reflect', cval=0.0, truncate=4.0)
+
+    print occMap
+    plt.imshow(occMap)
+    plt.show()
+
+
+
+
+
