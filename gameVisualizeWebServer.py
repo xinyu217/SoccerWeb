@@ -10,7 +10,7 @@ app = Flask(__name__)
 def hello_world():
     return render_template('index.html',t = "Soccer Interface")
 
-DATABASE = "/Users/Felix/Dropbox/SoccerProject/POC-exampleGames/Manchester City v FC Bayern Munchen-20131002/database-bigTable.db"
+DATABASE = "home/ubuntu/database-bigTable.db"
 
 app.config.from_object(__name__)
 
