@@ -14,6 +14,8 @@ var svg = d3.select("body").append("svg")
 .attr("width", w)
 .attr("height", h)
 
+
+
 //maybe plot the court here? Just the outline first?
 // outline of the court
 var outlineCourt = svg.append("rect").attr("x", 0).attr("y", 0).attr("width", 1050).attr("height", 680).attr("fill-opacity", 0).attr("stroke-width", 8).attr("stroke", "black");
@@ -617,6 +619,25 @@ function plotRetrievedPlays(data) {
 
 function plotPlayerPos(data) {
     
+
+    
+    
+//    var text = svg.selectAll("text")
+//    .data([{ x: (data['A01_X']*10)+525, y: (data['A01_Y']*10)+340, r: 10}])
+//    .enter()
+//    .append("text");
+//    
+//    var textLabels = text
+//                    .attr("cx", function(d) { return d.cx; })
+//                    .attr("cy", function(d) { return d.cy; })
+//                    .text( function (d) { return "( " + d.cx + ", " + d.cy +" )"; })
+//                    .attr("font-family", "sans-serif")
+//                    .attr("font-size", "20px")
+//                    .attr("fill", "red");
+    
+
+
+    
     // ---------- A01 -----------
     // plot the circle
     var homeTeamA01 = svg.selectAll('.draggableCircleHomeA01').data([{ x: (data['A01_X']*10)+525, y: (data['A01_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA01').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
@@ -664,8 +685,51 @@ function plotPlayerPos(data) {
     var awayTeamB11 = svg.selectAll('.draggableCircleAwayB11').data([{ x: (data['B11_X']*10)+525, y: (data['B11_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB11').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
 
    
+    // display players name
+    //-----------------------------------------------------------------------------------//
+    var str1 = "Timestamp: ";
+    var str2 = Math.round(data['time']*10)/10;
+    var f = str1.concat(str2);
     
+    var text = svg.selectAll("text")
+    .data([{ "cx": (data['A01_X']*10)+500, "cy": (data['A01_Y']*10)+320, "radius": 10, "name": data['A01_Name']},
+           { "cx": (data['A02_X']*10)+500, "cy": (data['A02_Y']*10)+320, "radius": 10, "name": data['A02_Name']},
+           { "cx": (data['A03_X']*10)+500, "cy": (data['A03_Y']*10)+320, "radius": 10, "name": data['A03_Name']},
+           { "cx": (data['A04_X']*10)+500, "cy": (data['A04_Y']*10)+320, "radius": 10, "name": data['A04_Name']},
+           { "cx": (data['A05_X']*10)+500, "cy": (data['A05_Y']*10)+320, "radius": 10, "name": data['A05_Name']},
+           { "cx": (data['A06_X']*10)+500, "cy": (data['A06_Y']*10)+320, "radius": 10, "name": data['A06_Name']},
+           { "cx": (data['A07_X']*10)+500, "cy": (data['A07_Y']*10)+320, "radius": 10, "name": data['A07_Name']},
+           { "cx": (data['A08_X']*10)+500, "cy": (data['A08_Y']*10)+320, "radius": 10, "name": data['A08_Name']},
+           { "cx": (data['A09_X']*10)+500, "cy": (data['A09_Y']*10)+320, "radius": 10, "name": data['A09_Name']},
+           { "cx": (data['A10_X']*10)+500, "cy": (data['A10_Y']*10)+320, "radius": 10, "name": data['A10_Name']},
+           { "cx": (data['A11_X']*10)+500, "cy": (data['A11_Y']*10)+320, "radius": 10, "name": data['A11_Name']},
+           { "cx": (data['B01_X']*10)+500, "cy": (data['B01_Y']*10)+320, "radius": 10, "name": data['B01_Name']},
+           { "cx": (data['B02_X']*10)+500, "cy": (data['B02_Y']*10)+320, "radius": 10, "name": data['B02_Name']},
+           { "cx": (data['B03_X']*10)+500, "cy": (data['B03_Y']*10)+320, "radius": 10, "name": data['B03_Name']},
+           { "cx": (data['B04_X']*10)+500, "cy": (data['B04_Y']*10)+320, "radius": 10, "name": data['B04_Name']},
+           { "cx": (data['B05_X']*10)+500, "cy": (data['B05_Y']*10)+320, "radius": 10, "name": data['B05_Name']},
+           { "cx": (data['B06_X']*10)+500, "cy": (data['B06_Y']*10)+320, "radius": 10, "name": data['B06_Name']},
+           { "cx": (data['B07_X']*10)+500, "cy": (data['B07_Y']*10)+320, "radius": 10, "name": data['B07_Name']},
+           { "cx": (data['B08_X']*10)+500, "cy": (data['B08_Y']*10)+320, "radius": 10, "name": data['B08_Name']},
+           { "cx": (data['B09_X']*10)+500, "cy": (data['B09_Y']*10)+320, "radius": 10, "name": data['B09_Name']},
+           { "cx": (data['B10_X']*10)+500, "cy": (data['B10_Y']*10)+320, "radius": 10, "name": data['B10_Name']},
+           { "cx": (data['B11_X']*10)+500, "cy": (data['B11_Y']*10)+320, "radius": 10, "name": data['B11_Name']},
+           { "cx": 40, "cy": 40, "radius":10, "name": f}
+           ])
+    .enter()
+    .append("text");
     
+    //Add SVG Text Element Attributes
+    var PlayerName = text
+    .attr("x", function(d) { return d.cx; })
+    .attr("y", function(d) { return d.cy; })
+    .text(function (d) { return d.name; })
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "15px")
+    .attr("fill", "black");
+    //-----------------------------------------------------------------------------------//
+    
+
 }
 
 
