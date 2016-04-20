@@ -7,13 +7,16 @@
         
         <style type="text/css">
             svg {
-                top: 320px;
-                left: 150px;
+
                 border: solid 1px #aaa;
                 background-image: url("{{ url_for('static', filename='soccerGrassField.png') }}");
                 height: 680px;
                 width: 1050px;
-                position: fixed;
+                position: relative;
+                left: 50%;
+                -webkit-transform: translateX(-50%);
+                -ms-transform: translateX(-50%);
+                transform: translateX(-50%);
             }
 
         </style>
