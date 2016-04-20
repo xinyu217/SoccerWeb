@@ -1,6 +1,6 @@
 import csv
 import sqlite3
-import numpy as np
+#import numpy as np
 
 from flask import Flask, request, g, render_template, jsonify, url_for, Response, url_for, flash,session
 
@@ -46,11 +46,11 @@ def getInitialData():
     # maybe return the first timeFrame - get the object for all files here
     rows = execute_query("""SELECT time FROM mancityVbayern WHERE Half = 0""")
     #print "number of rows are"
-    timeStamps = np.unique(rows)
+#    timeStamps = np.unique(rows)
     #print "number of timeStamps are"
     #print len(timeStamps)
     
-    firstFrameVal = np.min(timeStamps)
+#    firstFrameVal = np.min(timeStamps)
     #print rows[0][0], 0
     #print type(rows[0])
     halfNo = 0
@@ -352,9 +352,10 @@ def getFrameData():
     
     outDict["firstFrameTime"]= rows[0]
     outDict["lastFrameTime"] = rows[len(rows)-1]
-    timeStamps = np.unique(rows)
-    outDict["noFrames"] = len(timeStamps)
-    
+#    timeStamps = np.unique(rows)
+    outDict["noFrames"] = 28000
+#len(timeStamps)
+
     #    print outDict
 #    awayPlayerMatrix = np.zeros((11,2))
 #    awayPlayerMatrix[0,:] = (playerB01[0][1], playerB01[0][2])
@@ -383,70 +384,70 @@ def getFrameData():
 
 
 # we do role assignment here
-def doRoleAssignment(inDict, homePlayerMatrix, awayPlayerMatrix):
-
-    # set the template - home - on-field players
-    #                                LB,     LCB,      RCB,       RB,      LCM,       RCM,      ACM,  LW,    ST,  RW
-    homeTemplate = np.matrix('-350,-150; -350, -50; -350,50; -250,50; -200,-50; -200,50; -150,0; -100,-150; 0,+50; -100,150')
-    awayTemplate = homeTemplate*-1
-    
-    # who is the goal-keeper
-    idx = range(0,11)
-    idx = idx[:3] + idx[4:]
-    print idx
-    # player idx 3 is the goalkeeper
-    homeMat = homePlayerMatrix[idx,:]
-    awayMat = awayPlayerMatrix[1:,:]
-    
-    # now get the cost matrix
-    homeCostMat = np.zeros((10,10))
-    awayCostMat = np.zeros((10,10))
-    
-    print homeMat.shape
-    print awayMat.shape
-    
-    
-    for i in range(0,10):
-        for j in range(0,10):
-
-            print i, j
-            homeCostMat[i,j] = np.sqrt(np.power(homeTemplate[i,0] - homeMat[j,0], 2) + np.power(homeTemplate[i,1] - homeMat[j,1], 2))
-            awayCostMat[i,j] = np.sqrt(np.power(awayTemplate[i,0] - awayMat[j,0], 2) + np.power(awayTemplate[i,1] - awayMat[j,1], 2))
-
+#def doRoleAssignment(inDict, homePlayerMatrix, awayPlayerMatrix):
+#
+#    # set the template - home - on-field players
+#    #                                LB,     LCB,      RCB,       RB,      LCM,       RCM,      ACM,  LW,    ST,  RW
+#    homeTemplate = np.matrix('-350,-150; -350, -50; -350,50; -250,50; -200,-50; -200,50; -150,0; -100,-150; 0,+50; -100,150')
+#    awayTemplate = homeTemplate*-1
+#    
+#    # who is the goal-keeper
+#    idx = range(0,11)
+#    idx = idx[:3] + idx[4:]
+#    print idx
+#    # player idx 3 is the goalkeeper
+#    homeMat = homePlayerMatrix[idx,:]
+#    awayMat = awayPlayerMatrix[1:,:]
+#    
+#    # now get the cost matrix
+#    homeCostMat = np.zeros((10,10))
+#    awayCostMat = np.zeros((10,10))
+#    
+#    print homeMat.shape
+#    print awayMat.shape
+#    
+#    
+#    for i in range(0,10):
+#        for j in range(0,10):
+#
+#            print i, j
+#            homeCostMat[i,j] = np.sqrt(np.power(homeTemplate[i,0] - homeMat[j,0], 2) + np.power(homeTemplate[i,1] - homeMat[j,1], 2))
+#            awayCostMat[i,j] = np.sqrt(np.power(awayTemplate[i,0] - awayMat[j,0], 2) + np.power(awayTemplate[i,1] - awayMat[j,1], 2))
+#
+##
+##
+##
+#    print homeCostMat
+#    print awayCostMat
+#    # do the Hungarian algorithm here
+#    doHungarian(homeCostMat)
+#    doHungarian(awayCostMat)
 #
 #
+#def doHungarian(matrix):
 #
-    print homeCostMat
-    print awayCostMat
-    # do the Hungarian algorithm here
-    doHungarian(homeCostMat)
-    doHungarian(awayCostMat)
-
-
-def doHungarian(matrix):
-
-
-    from munkres import Munkres, print_matrix
-    print "We do the hungarian algorithm here"
-
-    m = Munkres()
-    indexes = m.compute(matrix)
-    print indexes
-    # bug with print_matrix...
-    #print_matrix(matrix, msg='Lowest cost through this matrix:')
-    total = 0
-
-    print "gets to here"
-    
-    for row, column in indexes:
-        print row, column
-        
-        value = matrix[row][column]
-        print matrix
-        print value
-        total += value
-        print '(%d, %d) -> %d' % (row, column, value)
-    print 'total cost: %d' % total
+#
+#    from munkres import Munkres, print_matrix
+#    print "We do the hungarian algorithm here"
+#
+#    m = Munkres()
+#    indexes = m.compute(matrix)
+#    print indexes
+#    # bug with print_matrix...
+#    #print_matrix(matrix, msg='Lowest cost through this matrix:')
+#    total = 0
+#
+#    print "gets to here"
+#    
+#    for row, column in indexes:
+#        print row, column
+#        
+#        value = matrix[row][column]
+#        print matrix
+#        print value
+#        total += value
+#        print '(%d, %d) -> %d' % (row, column, value)
+#    print 'total cost: %d' % total
 
 
 
@@ -752,4 +753,4 @@ def doHungarian(matrix):
 #
 #
 if __name__ == '__main__':
-    app.run()
+    app.run(host = '0.0.0.0', port = 5000)
