@@ -2,13 +2,13 @@ import csv
 import sqlite3
 import numpy as np
 
-from flask import Flask, request, g, render_template, jsonify, url_for, Response
+from flask import Flask, request, g, render_template, jsonify, url_for, Response, url_for, flash,session
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return render_template("index.html")
+    return render_template('index.html',t = "Soccer Interface")
 
 DATABASE = "/Users/Felix/Dropbox/SoccerProject/POC-exampleGames/Manchester City v FC Bayern Munchen-20131002/database-bigTable.db"
 
@@ -45,14 +45,14 @@ def getInitialData():
     
     # maybe return the first timeFrame - get the object for all files here
     rows = execute_query("""SELECT time FROM mancityVbayern WHERE Half = 0""")
-    print "number of rows are"
+    #print "number of rows are"
     timeStamps = np.unique(rows)
-    print "number of timeStamps are"
-    print len(timeStamps)
+    #print "number of timeStamps are"
+    #print len(timeStamps)
     
     firstFrameVal = np.min(timeStamps)
-    print rows[0][0], 0
-    print type(rows[0])
+    #print rows[0][0], 0
+    #print type(rows[0])
     halfNo = 0
     
     global timeVec
@@ -60,9 +60,10 @@ def getInitialData():
     
     # had to change the rows[0] as it was a tuple (0.0,)
     firstRow = execute_query("""SELECT * FROM mancityVbayern WHERE time = (?) AND half = (?)""",  (rows[3][0], int(0)) )
-    print firstRow
+    #print firstRow
     
     playerA01 = execute_query("""SELECT A01_Name text, A01_X real, A01_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
+    print playerA01
     playerA02 = execute_query("""SELECT A02_Name text, A02_X real, A02_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
     playerA03 = execute_query("""SELECT A03_Name text, A03_X real, A03_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
     playerA04 = execute_query("""SELECT A04_Name text, A04_X real, A04_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
@@ -192,22 +193,31 @@ def getInitialData():
 
 @app.route("/getFrameData/", methods=['GET','POST'])
 def getFrameData():
-    
-    #print "Something here"
     print request.args.get("time")
     # need to put [] around it
-    frameNo = [request.args.get("time")][0]
-    print timeVec[int(frameNo)]
-    nextTime = timeVec[int(frameNo)]
+    
+    rows = execute_query("""SELECT time FROM mancityVbayern WHERE Half = 0""")
+
+
+    #print type(rows[0])
+    
+    frameNo = int(request.args.get("time"))
+    print frameNo
+    
+#    print timeVec[int(frameNo)]
+#    print "b"
+#    nextTime = timeVec[int(frameNo)]
+
+    nextTime = rows[frameNo][0]
     print nextTime
     halfNo = 0
-    print nextTime
-    
+#    print nextTime
+#    print "c"
     # let's cycle through all the frames
     #def generate():
     
     playerA01 = execute_query("""SELECT A01_Name text, A01_X real, A01_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (nextTime, halfNo) )
-    print playerA01
+
     playerA02 = execute_query("""SELECT A02_Name text, A02_X real, A02_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (nextTime, halfNo) )
     playerA03 = execute_query("""SELECT A03_Name text, A03_X real, A03_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (nextTime, halfNo) )
     playerA04 = execute_query("""SELECT A04_Name text, A04_X real, A04_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (nextTime, halfNo) )
@@ -279,19 +289,19 @@ def getFrameData():
     outDict["A11_Y"] = playerA11[0][2]
     
     # get the matrix of the players here
-    homePlayerMatrix = np.zeros((11,2))
-    homePlayerMatrix[0,:] = (playerA01[0][1], playerA01[0][2])
-    homePlayerMatrix[1,:] = (playerA02[0][1], playerA02[0][2])
-    homePlayerMatrix[2,:] = (playerA03[0][1], playerA03[0][2])
-    homePlayerMatrix[3,:] = (playerA04[0][1], playerA04[0][2])
-    homePlayerMatrix[4,:] = (playerA05[0][1], playerA05[0][2])
-    homePlayerMatrix[5,:] = (playerA06[0][1], playerA06[0][2])
-    homePlayerMatrix[6,:] = (playerA07[0][1], playerA07[0][2])
-    homePlayerMatrix[7,:] = (playerA08[0][1], playerA08[0][2])
-    homePlayerMatrix[8,:] = (playerA09[0][1], playerA09[0][2])
-    homePlayerMatrix[9,:] = (playerA10[0][1], playerA10[0][2])
-    homePlayerMatrix[10,:] = (playerA11[0][1], playerA11[0][2])
-    
+#    homePlayerMatrix = np.zeros((11,2))
+#    homePlayerMatrix[0,:] = (playerA01[0][1], playerA01[0][2])
+#    homePlayerMatrix[1,:] = (playerA02[0][1], playerA02[0][2])
+#    homePlayerMatrix[2,:] = (playerA03[0][1], playerA03[0][2])
+#    homePlayerMatrix[3,:] = (playerA04[0][1], playerA04[0][2])
+#    homePlayerMatrix[4,:] = (playerA05[0][1], playerA05[0][2])
+#    homePlayerMatrix[5,:] = (playerA06[0][1], playerA06[0][2])
+#    homePlayerMatrix[6,:] = (playerA07[0][1], playerA07[0][2])
+#    homePlayerMatrix[7,:] = (playerA08[0][1], playerA08[0][2])
+#    homePlayerMatrix[8,:] = (playerA09[0][1], playerA09[0][2])
+#    homePlayerMatrix[9,:] = (playerA10[0][1], playerA10[0][2])
+#    homePlayerMatrix[10,:] = (playerA11[0][1], playerA11[0][2])
+
     outDict["B01_Name"] = playerB01[0][0]
     outDict["B01_X"] = playerB01[0][1]
     outDict["B01_Y"] = playerB01[0][2]
@@ -335,24 +345,34 @@ def getFrameData():
     outDict["B11_Name"] = playerB11[0][0]
     outDict["B11_X"] = playerB11[0][1]
     outDict["B11_Y"] = playerB11[0][2]
-    
-    awayPlayerMatrix = np.zeros((11,2))
-    awayPlayerMatrix[0,:] = (playerB01[0][1], playerB01[0][2])
-    awayPlayerMatrix[1,:] = (playerB02[0][1], playerB02[0][2])
-    awayPlayerMatrix[2,:] = (playerB03[0][1], playerB03[0][2])
-    awayPlayerMatrix[3,:] = (playerB04[0][1], playerB04[0][2])
-    awayPlayerMatrix[4,:] = (playerB05[0][1], playerB05[0][2])
-    awayPlayerMatrix[5,:] = (playerB06[0][1], playerB06[0][2])
-    awayPlayerMatrix[6,:] = (playerB07[0][1], playerB07[0][2])
-    awayPlayerMatrix[7,:] = (playerB08[0][1], playerB08[0][2])
-    awayPlayerMatrix[8,:] = (playerB09[0][1], playerB09[0][2])
-    awayPlayerMatrix[9,:] = (playerB10[0][1], playerB10[0][2])
-    awayPlayerMatrix[10,:] = (playerB11[0][1], playerB11[0][2])
 
-    print outDict
+    outDict["time"] = rows[frameNo][0]
+    # give the next time
+    outDict["nextTime"] = rows[frameNo+1][0]
     
+    outDict["firstFrameTime"]= rows[0]
+    outDict["lastFrameTime"] = rows[len(rows)-1]
+    timeStamps = np.unique(rows)
+    outDict["noFrames"] = len(timeStamps)
+    
+    #    print outDict
+#    awayPlayerMatrix = np.zeros((11,2))
+#    awayPlayerMatrix[0,:] = (playerB01[0][1], playerB01[0][2])
+#    awayPlayerMatrix[1,:] = (playerB02[0][1], playerB02[0][2])
+#    awayPlayerMatrix[2,:] = (playerB03[0][1], playerB03[0][2])
+#    awayPlayerMatrix[3,:] = (playerB04[0][1], playerB04[0][2])
+#    awayPlayerMatrix[4,:] = (playerB05[0][1], playerB05[0][2])
+#    awayPlayerMatrix[5,:] = (playerB06[0][1], playerB06[0][2])
+#    awayPlayerMatrix[6,:] = (playerB07[0][1], playerB07[0][2])
+#    awayPlayerMatrix[7,:] = (playerB08[0][1], playerB08[0][2])
+#    awayPlayerMatrix[8,:] = (playerB09[0][1], playerB09[0][2])
+#    awayPlayerMatrix[9,:] = (playerB10[0][1], playerB10[0][2])
+#    awayPlayerMatrix[10,:] = (playerB11[0][1], playerB11[0][2])
+
+# print outDict
+#print "test";
     # do role assignment here
-    doRoleAssignment(outDict, homePlayerMatrix, awayPlayerMatrix)
+    # doRoleAssignment(outDict, homePlayerMatrix, awayPlayerMatrix)
 
         #return Response(generate(), mimetype='json')
 
