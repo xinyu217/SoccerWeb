@@ -1,29 +1,56 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         <style type="text/css">
             svg {
-                top: 50px;
-                left: 50px;
+                top: 320px;
+                left: 150px;
                 border: solid 1px #aaa;
-                background-image: url("{{ url_for('static', filename='soccerGrassField.jpg') }}");
+                background-image: url("{{ url_for('static', filename='soccerGrassField.png') }}");
                 height: 680px;
                 width: 1050px;
                 position: fixed;
             }
-        
 
-        
-            </style>
+        </style>
+
+
+    <title>{{ t }}</title>
+
+            <!-- Bootstrap -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css">
+                
+                <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+                <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+                <!--[if lt IE 9]>
+                 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+                 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+                 <![endif]-->
     </head>
     <body>
-        
-        <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='moveCircles.js') }}"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+        <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+        
         <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
         
+        
+        
+        <div class = "container vertical-center text-center">
+        
+        <h1>Soccer Engine</h1>
+        <script type="text/javascript" src="{{ url_for('static', filename='moveCircles.js') }}"></script>
+        
+        <div class = "well">
+            <p>Interactive User Interface for Anlyzing Soccer Tracking Data.</p>
+        </div>
+
         <!--
         <div id="checks">
             X-axis:<input type="checkbox" id="xChecked" checked/>
@@ -31,14 +58,43 @@
         </div> -->
         
         <!--<input type="range" id="timeScrub" value="0" min="0" max="20000"  onchange="updateTextInput(this.value);" form="gameSelect" style="width:720px;position:fixed;top:770px;left:250px;"/> -->
-        <input type="range" id="timeScrub" value="0" min="0" max="28000" step="1"  onchange="showData;" form="gameSelect" style="width:720px;position:fixed;top:770px;left:250px;"/>
-        <input type="range" id="trajLength" value="3" min="1" max="5" style="width:150px;position:fixed;top:770px;left:50px;"/>
-        
-        <!-- This is the play button -->
-        <button type="button" id="playGameBtn" size="30" style="position:fixed;top:30px;left:175px;">PLAY/PAUSE</button>
 
-    
         
+<!--        <input type="range" id="trajLength" value="3" min="1" max="5" style="width:150px;position:fixed;top:770px;left:50px;"/>-->
+
+
+        <!-- This is the play button -->
+
+
+        <button type="button" id="playGameBtn" class="btn btn-lg btn-success">PLAY/PAUSE</button>
+
+        
+        <!-- Show retrieved plays button -->
+  
+        <button type="button" class="btn btn-lg btn-success" id="predictionBtn">PREDICTION</button>
+ 
+        
+        <!-- Get the retrieve button -->
+
+        <button type="button" id="retrieveBtn" class="btn btn-lg btn-success">RETRIEVE</button>
+
+
+        
+        <BR />
+  
+        <BR />
+  
+
+<h3>Time Slider:</h3>
+<input type="range" id="timeScrub" value="0" min="0" max="28000" step="1"  onchange="showData;" form="gameSelect"/>
+ 
+            <BR />
+            <BR />
+        
+        
+        
+
+    <BR />
         <script type="text/javascript">
             $(function() {
               $("#playGameBtn").click(function() {
@@ -94,8 +150,7 @@
          });
         </script>
         
-        <!-- Get the retrieve button -->
-        <button type="button" id="retrieveBtn" size="30" style="position:fixed;top:30px;left:775px;">RETRIEVE</button>
+
         
         <!-- get the trajectory data from the interface 
          make sure it has the time window included so we can fix/interpolate for that window-->
@@ -124,18 +179,18 @@
    
    
         <!-- We want to give the retrieved results in a drop-down box - need javascript to populate it -->
-        <label style="position:fixed;top:800px;left:470px;">Retrieved Results</label>
-        <select style="position:fixed;top:820px;left:470px;width:100px" id=playID>
-            <option value="Play1">Play 1</option>
-            <option value="Play2">Play 2</option>
-            <option value="Play3">Play 3</option>
-            <option value="Play4">Play 4</option>
-            <option value="Play5">Play 5</option>
-        </select>
-        
+<!--        <label style="position:fixed;top:800px;left:470px;">Retrieved Results</label>-->
+<!--        <select style="position:fixed;top:820px;left:470px;width:100px" id=playID>-->
+<!--            <option value="Play1">Play 1</option>-->
+<!--            <option value="Play2">Play 2</option>-->
+<!--            <option value="Play3">Play 3</option>-->
+<!--            <option value="Play4">Play 4</option>-->
+<!--            <option value="Play5">Play 5</option>-->
+<!--        </select>-->
+
         <!-- Show retrieved plays button -->
-        <button type="button" id="showRetrieveBtn" size="30" style="position:fixed;top:820px;left:590px;">RUN</button>
-        
+<!--        <button type="button" id="showRetrieveBtn" size="30" style="position:fixed;top:820px;left:590px;">RUN</button>-->
+
         <!-- Here we want to link to the chooseGameBtn, which takes in select box as input -->
         <script type="text/javascript">
             $(function() {
@@ -175,6 +230,7 @@
                                                d3.select("svg").selectAll(".draggableCircleAwayB10").remove();
                                                d3.select("svg").selectAll(".draggableCircleAwayB11").remove();
                                                
+                                               d3.select("svg").selectAll("Text").remove();
                                                // function to replot - this is in the moveCircles js file
                                                plotPlayerPos(data)
                                                
@@ -192,8 +248,6 @@
               });
             </script>
 
-            <!-- Show retrieved plays button -->
-            <button type="button" id="predictionBtn" size="30" style="position:fixed;top:30px;left:530px;">PREDICTION</button>
 
 
             <!-- Here we want to link to the chooseGameBtn, which takes in select box as input -->
@@ -212,12 +266,10 @@
                                          }
                                          });
                                   });
-      });
-    </script>
-
-
-
-
+                  });
+                </script>
+            </div>
 
     </body>
+    
 </html>
