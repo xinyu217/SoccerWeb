@@ -69,193 +69,109 @@
         <!-- This is the play button -->
 
 
-        <button type="button" id="playGameBtn" class="btn btn-lg btn-success">PLAY/PAUSE</button>
+        <button type="button" id="playGameBtn" class="btn btn-lg btn-success" style = "width: 300px; height:80px">PLAY</button>
+
 
         
         <!-- Show retrieved plays button -->
   
-        <button type="button" class="btn btn-lg btn-success" id="predictionBtn">PREDICTION</button>
- 
+<!--        <button type="button" class="btn btn-lg btn-success" id="predictionBtn">PREDICTION</button>-->
+
         
         <!-- Get the retrieve button -->
 
-        <button type="button" id="retrieveBtn" class="btn btn-lg btn-success">RETRIEVE</button>
+<!--        <button type="button" id="retrieveBtn" class="btn btn-lg btn-success">RETRIEVE</button>-->
 
-
-        
         <BR />
   
         <BR />
-  
 
-<h3>Time Slider:</h3>
-<input type="range" id="timeScrub" value="0" min="0" max="28000" step="1"  onchange="showData;" form="gameSelect"/>
+        <h3>Time Slider:</h3>
+        <input type="range" id="timeScrub" value="0" min="0" max="28000" step="1" form="gameSelect"/>
  
-            <BR />
-            <BR />
-        
-        
+        <BR />
+        <BR />
+        <BR />
         
 
-    <BR />
         <script type="text/javascript">
+            
+            var pause = true;
+            
             $(function() {
               $("#playGameBtn").click(function() {
-                 $.ajax({
-                      type: "GET",
-                      url: $SCRIPT_ROOT + "/getInitialData/",
-                      contentType: "application/json; charset=utf-8",
-                      data: { timeVal: "0"}, // should be passing information here
-                      success: function(data) {
-                         //$('#outResult').text(data.value);
-                         // do stuff here...replot the court
-                         console.log("POO");
-                         console.log(data);
-                         
-                         // get the number of frames here
-                         console.log(data['noFrames'])
-                         // update the slider values
-                         //console.log($('#timeScrub').val())
-                         var maxValue = document.getElementById("timeScrub");
-                         maxValue.max = data['noFrames']
-                         console.log(maxValue.max)
-                         console.log(maxValue.value)
-                         
-                         d3.select("svg").selectAll(".draggableCircleHomeA01").remove();
-                         d3.select("svg").selectAll(".draggableCircleHomeA02").remove();
-                         d3.select("svg").selectAll(".draggableCircleHomeA03").remove();
-                         d3.select("svg").selectAll(".draggableCircleHomeA04").remove();
-                         d3.select("svg").selectAll(".draggableCircleHomeA05").remove();
-                         d3.select("svg").selectAll(".draggableCircleHomeA06").remove();
-                         d3.select("svg").selectAll(".draggableCircleHomeA07").remove();
-                         d3.select("svg").selectAll(".draggableCircleHomeA08").remove();
-                         d3.select("svg").selectAll(".draggableCircleHomeA09").remove();
-                         d3.select("svg").selectAll(".draggableCircleHomeA10").remove();
-                         d3.select("svg").selectAll(".draggableCircleHomeA11").remove();
-                         
-                         d3.select("svg").selectAll(".draggableCircleAwayB01").remove();
-                         d3.select("svg").selectAll(".draggableCircleAwayB02").remove();
-                         d3.select("svg").selectAll(".draggableCircleAwayB03").remove();
-                         d3.select("svg").selectAll(".draggableCircleAwayB04").remove();
-                         d3.select("svg").selectAll(".draggableCircleAwayB05").remove();
-                         d3.select("svg").selectAll(".draggableCircleAwayB06").remove();
-                         d3.select("svg").selectAll(".draggableCircleAwayB07").remove();
-                         d3.select("svg").selectAll(".draggableCircleAwayB08").remove();
-                         d3.select("svg").selectAll(".draggableCircleAwayB09").remove();
-                         d3.select("svg").selectAll(".draggableCircleAwayB10").remove();
-                         d3.select("svg").selectAll(".draggableCircleAwayB11").remove();
-                         
-                         // function to replot - this is in the moveCircles js file
-                         plotPlayerPos(data)
-                      }
+                    pause = !pause;
+                    $("#nextBtn").click();
+                    $(this).text(function(i, text){
+                            return text === "PLAY" ? "STOP" : "PLAY";
+                    })
+                    $(this).toggleClass("btn btn-lg btn-warning");
                   });
-            });
-         });
-        </script>
-        
+             });
 
-        
-        <!-- get the trajectory data from the interface 
-         make sure it has the time window included so we can fix/interpolate for that window-->
-        <script type="text/javascript">
             $(function() {
-              $("#retrieveBtn").click(function() {
-                  $.ajax({
-                      type: "POST",
-                      url: $SCRIPT_ROOT + "/retrieveData/",
-                      contentType: "application/json; charset=utf-8",
-                      dataType:"json",
-                         //data: JSON.stringify({ trajLength: $('#trajLength').val(), trajVecHomePG: trajVecHomePG, trajVecHomeSG: trajVecHomeSG, trajVecHomeC: trajVecHomeC, trajVecHomeSF: trajVecHomeSF, trajVecHomePF: trajVecHomePF, trajVecAwayPG: trajVecAwayPG, trajVecAwaySG: trajVecAwaySG, trajVecAwayC: trajVecAwayC, trajVecAwaySF: trajVecAwaySF, trajVecAwayPF: trajVecAwayPF, trajVecBall: trajVecBall }),
-                      success: function(data) {
-                         console.log("Here we will spit back the results");
-                      }
-                         
-                  });
-                                      
-                });
-            });
-            
-            // we have to get the data from the browser - the svg data
-            //console.log(trajVecHomePG);
+              $("#timeScrub").change(function() {
+                        // get current time
+                        var inTime = $('#timeScrub').val()
+                        $.ajax({
+                               type: "GET",
+                               url: $SCRIPT_ROOT + "/getFrameData/",
+                               contentType: "application/json; charset=utf-8",
+                               data: { time: inTime},
+                               success: function(data) {
+                               
+                               // we need to remove current players and their trajectories
+                               //d3.select("svg").selectAll(".draggableCircleHomeA01").remove();
 
-        </script>
-   
-   
-        <!-- We want to give the retrieved results in a drop-down box - need javascript to populate it -->
-<!--        <label style="position:fixed;top:800px;left:470px;">Retrieved Results</label>-->
-<!--        <select style="position:fixed;top:820px;left:470px;width:100px" id=playID>-->
-<!--            <option value="Play1">Play 1</option>-->
-<!--            <option value="Play2">Play 2</option>-->
-<!--            <option value="Play3">Play 3</option>-->
-<!--            <option value="Play4">Play 4</option>-->
-<!--            <option value="Play5">Play 5</option>-->
-<!--        </select>-->
-
-        <!-- Show retrieved plays button -->
-<!--        <button type="button" id="showRetrieveBtn" size="30" style="position:fixed;top:820px;left:590px;">RUN</button>-->
-
-        <!-- Here we want to link to the chooseGameBtn, which takes in select box as input -->
-        <script type="text/javascript">
-            $(function() {
-            //$("#showRetrieveBtn").click(function(){
-              $("#timeScrub").click(function() {
-                                        // get current time
-                                        var inTime = $('#timeScrub').val()
-                                        $.ajax({
-                                               type: "GET",
-                                               url: $SCRIPT_ROOT + "/getFrameData/",
-                                               contentType: "application/json; charset=utf-8",
-                                               data: { time: inTime},
-                                               success: function(data) {
-                                               
-                                               // we need to remove current players and their trajectories
-                                               d3.select("svg").selectAll(".draggableCircleHomeA01").remove();
-                                               d3.select("svg").selectAll(".draggableCircleHomeA02").remove();
-                                               d3.select("svg").selectAll(".draggableCircleHomeA03").remove();
-                                               d3.select("svg").selectAll(".draggableCircleHomeA04").remove();
-                                               d3.select("svg").selectAll(".draggableCircleHomeA05").remove();
-                                               d3.select("svg").selectAll(".draggableCircleHomeA06").remove();
-                                               d3.select("svg").selectAll(".draggableCircleHomeA07").remove();
-                                               d3.select("svg").selectAll(".draggableCircleHomeA08").remove();
-                                               d3.select("svg").selectAll(".draggableCircleHomeA09").remove();
-                                               d3.select("svg").selectAll(".draggableCircleHomeA10").remove();
-                                               d3.select("svg").selectAll(".draggableCircleHomeA11").remove();
-                                               
-                                               d3.select("svg").selectAll(".draggableCircleAwayB01").remove();
-                                               d3.select("svg").selectAll(".draggableCircleAwayB02").remove();
-                                               d3.select("svg").selectAll(".draggableCircleAwayB03").remove();
-                                               d3.select("svg").selectAll(".draggableCircleAwayB04").remove();
-                                               d3.select("svg").selectAll(".draggableCircleAwayB05").remove();
-                                               d3.select("svg").selectAll(".draggableCircleAwayB06").remove();
-                                               d3.select("svg").selectAll(".draggableCircleAwayB07").remove();
-                                               d3.select("svg").selectAll(".draggableCircleAwayB08").remove();
-                                               d3.select("svg").selectAll(".draggableCircleAwayB09").remove();
-                                               d3.select("svg").selectAll(".draggableCircleAwayB10").remove();
-                                               d3.select("svg").selectAll(".draggableCircleAwayB11").remove();
-                                               
-                                               d3.select("svg").selectAll("Text").remove();
-                                               // function to replot - this is in the moveCircles js file
-                                               plotPlayerPos(data)
-                                               
-                                               //update the slider with next number
-                                               console.log(inTime)
-                                               var maxValue = document.getElementById("timeScrub");
-                                               
-                                               maxValue.val = parseInt(inTime)+1;
-                                               console.log(maxValue.val)
-
-
-                                               }
-                                               });
-                                        });
+                               d3.select("svg").selectAll("circle").remove();
+                               d3.select("svg").selectAll("Text").remove();
+                               // function to replot - this is in the moveCircles js file
+                               plotPlayerPos(data)
+                               
+                               //update the slider with next number
+                            
+                               var maxValue = document.getElementById("timeScrub");
+                               
+                               maxValue.val = parseInt(inTime)+1;
+                               // playing
+                               if (pause == false){
+                                   $("#nextBtn").click();
+                               }
+                               
+                               }
+                               });
+                        });
               });
-            </script>
 
+        $(function() {
+            $("#nextBtn").click(function() {
+ 
+                                var t = $('#timeScrub').val();
+                                t = +t + 2;
+                                $('#timeScrub').val(t);
+                                $("#timeScrub").change();
+            });
+      });
 
+        $(function() {
+          $("#retrieveBtn").click(function() {
+                                  $.ajax({
+                                         type: "POST",
+                                         url: $SCRIPT_ROOT + "/retrieveData/",
+                                         contentType: "application/json; charset=utf-8",
+                                         dataType:"json",
+                                         //data: JSON.stringify({ trajLength: $('#trajLength').val(), trajVecHomePG: trajVecHomePG, trajVecHomeSG: trajVecHomeSG, trajVecHomeC: trajVecHomeC, trajVecHomeSF: trajVecHomeSF, trajVecHomePF: trajVecHomePF, trajVecAwayPG: trajVecAwayPG, trajVecAwaySG: trajVecAwaySG, trajVecAwayC: trajVecAwayC, trajVecAwaySF: trajVecAwaySF, trajVecAwayPF: trajVecAwayPF, trajVecBall: trajVecBall }),
+                                         success: function(data) {
+                                         console.log("Here we will spit back the results");
+                                         }
+                                         
+                                         });
+                                  
+                                  });
+          });
+      
 
-            <!-- Here we want to link to the chooseGameBtn, which takes in select box as input -->
-            <script type="text/javascript">
-                $(function() {
+            $(function() {
                   $("#predictionBtn").click(function() {
                                   $.ajax({
                                          type: "GET",
@@ -270,8 +186,10 @@
                                          });
                                   });
                   });
-                </script>
-            </div>
+        </script>
+        <button type="button" id="nextBtn" class="btn btn-lg btn-success" style = "display:none">Next FRAME</button>
+        
+        </div>
 
     </body>
     

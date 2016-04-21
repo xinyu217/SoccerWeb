@@ -636,54 +636,92 @@ function plotPlayerPos(data) {
 //                    .attr("fill", "red");
     
 
+    
 
     
     // ---------- A01 -----------
     // plot the circle
-    var homeTeamA01 = svg.selectAll('.draggableCircleHomeA01').data([{ x: (data['A01_X']*10)+525, y: (data['A01_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA01').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-     var homeTeamA02 = svg.selectAll('.draggableCircleHomeA02').data([{ x: (data['A02_X']*10)+525, y: (data['A02_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA02').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-    var homeTeamA03 = svg.selectAll('.draggableCircleHomeA03').data([{ x: (data['A03_X']*10)+525, y: (data['A03_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA03').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-    var homeTeamA04 = svg.selectAll('.draggableCircleHomeA04').data([{ x: (data['A04_X']*10)+525, y: (data['A04_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA04').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-    var homeTeamA05 = svg.selectAll('.draggableCircleHomeA05').data([{ x: (data['A05_X']*10)+525, y: (data['A05_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA05').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-    var homeTeamA06 = svg.selectAll('.draggableCircleHomeA06').data([{ x: (data['A06_X']*10)+525, y: (data['A06_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA06').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-    var homeTeamA07 = svg.selectAll('.draggableCircleHomeA01').data([{ x: (data['A07_X']*10)+525, y: (data['A07_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA07').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-    var homeTeamA08 = svg.selectAll('.draggableCircleHomeA08').data([{ x: (data['A08_X']*10)+525, y: (data['A08_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA08').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-    var homeTeamA09 = svg.selectAll('.draggableCircleHomeA09').data([{ x: (data['A09_X']*10)+525, y: (data['A09_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA09').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-    var homeTeamA10 = svg.selectAll('.draggableCircleHomeA10').data([{ x: (data['A10_X']*10)+525, y: (data['A10_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA10').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-    var homeTeamA11 = svg.selectAll('.draggableCircleHomeA11').data([{ x: (data['A11_X']*10)+525, y: (data['A11_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA11').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
-    
-    var awayTeamB01 = svg.selectAll('.draggableCircleAwayB01').data([{ x: (data['B01_X']*10)+525, y: (data['B01_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeB01').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
-    
-    var awayTeamB02 = svg.selectAll('.draggableCircleAwayB02').data([{ x: (data['B02_X']*10)+525, y: (data['B02_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB02').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
-    
-    var awayTeamB03 = svg.selectAll('.draggableCircleAwayB03').data([{ x: (data['B03_X']*10)+525, y: (data['B03_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB03').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
-    
-    var awayTeamB04 = svg.selectAll('.draggableCircleAwayB04').data([{ x: (data['B04_X']*10)+525, y: (data['B04_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB04').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
-    
-    var awayTeamB05 = svg.selectAll('.draggableCircleAwayB05').data([{ x: (data['B05_X']*10)+525, y: (data['B05_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB05').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
-    
-    var awayTeamB06 = svg.selectAll('.draggableCircleAwayB06').data([{ x: (data['B06_X']*10)+525, y: (data['B06_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB06').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
-    
-    var awayTeamB07 = svg.selectAll('.draggableCircleAwayB07').data([{ x: (data['B07_X']*10)+525, y: (data['B07_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB07').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
-    
-    var awayTeamB08 = svg.selectAll('.draggableCircleAwayB08').data([{ x: (data['B08_X']*10)+525, y: (data['B08_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB08').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
-    
-    var awayTeamB09 = svg.selectAll('.draggableCircleAwayB09').data([{ x: (data['B09_X']*10)+525, y: (data['B09_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB09').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
-    
-    var awayTeamB10 = svg.selectAll('.draggableCircleAwayB10').data([{ x: (data['B10_X']*10)+525, y: (data['B10_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB10').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
-    
-    var awayTeamB11 = svg.selectAll('.draggableCircleAwayB11').data([{ x: (data['B11_X']*10)+525, y: (data['B11_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB11').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    var homeTeamA01 = svg.selectAll('.draggableCircleHomeA01').data([{ x: (data['A01_X']*10)+525, y: (data['A01_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA01').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//     var homeTeamA02 = svg.selectAll('.draggableCircleHomeA02').data([{ x: (data['A02_X']*10)+525, y: (data['A02_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA02').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//    var homeTeamA03 = svg.selectAll('.draggableCircleHomeA03').data([{ x: (data['A03_X']*10)+525, y: (data['A03_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA03').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//    var homeTeamA04 = svg.selectAll('.draggableCircleHomeA04').data([{ x: (data['A04_X']*10)+525, y: (data['A04_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA04').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//    var homeTeamA05 = svg.selectAll('.draggableCircleHomeA05').data([{ x: (data['A05_X']*10)+525, y: (data['A05_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA05').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//    var homeTeamA06 = svg.selectAll('.draggableCircleHomeA06').data([{ x: (data['A06_X']*10)+525, y: (data['A06_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA06').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//    var homeTeamA07 = svg.selectAll('.draggableCircleHomeA01').data([{ x: (data['A07_X']*10)+525, y: (data['A07_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA07').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//    var homeTeamA08 = svg.selectAll('.draggableCircleHomeA08').data([{ x: (data['A08_X']*10)+525, y: (data['A08_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA08').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//    var homeTeamA09 = svg.selectAll('.draggableCircleHomeA09').data([{ x: (data['A09_X']*10)+525, y: (data['A09_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA09').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//    var homeTeamA10 = svg.selectAll('.draggableCircleHomeA10').data([{ x: (data['A10_X']*10)+525, y: (data['A10_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA10').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//    var homeTeamA11 = svg.selectAll('.draggableCircleHomeA11').data([{ x: (data['A11_X']*10)+525, y: (data['A11_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeA11').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'red');
+//    
+//    var awayTeamB01 = svg.selectAll('.draggableCircleAwayB01').data([{ x: (data['B01_X']*10)+525, y: (data['B01_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleHomeB01').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    
+//    var awayTeamB02 = svg.selectAll('.draggableCircleAwayB02').data([{ x: (data['B02_X']*10)+525, y: (data['B02_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB02').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    
+//    var awayTeamB03 = svg.selectAll('.draggableCircleAwayB03').data([{ x: (data['B03_X']*10)+525, y: (data['B03_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB03').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    
+//    var awayTeamB04 = svg.selectAll('.draggableCircleAwayB04').data([{ x: (data['B04_X']*10)+525, y: (data['B04_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB04').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    
+//    var awayTeamB05 = svg.selectAll('.draggableCircleAwayB05').data([{ x: (data['B05_X']*10)+525, y: (data['B05_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB05').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    
+//    var awayTeamB06 = svg.selectAll('.draggableCircleAwayB06').data([{ x: (data['B06_X']*10)+525, y: (data['B06_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB06').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    
+//    var awayTeamB07 = svg.selectAll('.draggableCircleAwayB07').data([{ x: (data['B07_X']*10)+525, y: (data['B07_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB07').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    
+//    var awayTeamB08 = svg.selectAll('.draggableCircleAwayB08').data([{ x: (data['B08_X']*10)+525, y: (data['B08_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB08').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    
+//    var awayTeamB09 = svg.selectAll('.draggableCircleAwayB09').data([{ x: (data['B09_X']*10)+525, y: (data['B09_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB09').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    
+//    var awayTeamB10 = svg.selectAll('.draggableCircleAwayB10').data([{ x: (data['B10_X']*10)+525, y: (data['B10_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB10').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
+//    
+//    var awayTeamB11 = svg.selectAll('.draggableCircleAwayB11').data([{ x: (data['B11_X']*10)+525, y: (data['B11_Y']*10)+340, r: 10}]).enter().append('svg:circle').attr('class', 'draggableCircleAwayB11').attr('cx', function(d) { return d.x; }).attr('cy', function(d) { return d.y; }).attr('r', function(d) { return d.r; }).call(drag).style('fill', 'blue');
 
+    
+    
+    
+    var p = svg.selectAll("circle")
+        .data([{ "cx": (data['A01_X']*10)+500, "cy": (data['A01_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['A02_X']*10)+500, "cy": (data['A02_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['A03_X']*10)+500, "cy": (data['A03_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['A04_X']*10)+500, "cy": (data['A04_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['A05_X']*10)+500, "cy": (data['A05_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['A06_X']*10)+500, "cy": (data['A06_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['A07_X']*10)+500, "cy": (data['A07_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['A08_X']*10)+500, "cy": (data['A08_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['A09_X']*10)+500, "cy": (data['A09_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['A10_X']*10)+500, "cy": (data['A10_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['A11_X']*10)+500, "cy": (data['A11_Y']*10)+320, "radius": 10, "color": 'blue'},
+               { "cx": (data['B01_X']*10)+500, "cy": (data['B01_Y']*10)+320, "radius": 10, "color": 'red'},
+               { "cx": (data['B02_X']*10)+500, "cy": (data['B02_Y']*10)+320, "radius": 10, "color": 'red'},
+               { "cx": (data['B03_X']*10)+500, "cy": (data['B03_Y']*10)+320, "radius": 10, "color": 'red'},
+               { "cx": (data['B04_X']*10)+500, "cy": (data['B04_Y']*10)+320, "radius": 10, "color": 'red'},
+               { "cx": (data['B05_X']*10)+500, "cy": (data['B05_Y']*10)+320, "radius": 10, "color": 'red'},
+               { "cx": (data['B06_X']*10)+500, "cy": (data['B06_Y']*10)+320, "radius": 10, "color": 'red'},
+               { "cx": (data['B07_X']*10)+500, "cy": (data['B07_Y']*10)+320, "radius": 10, "color": 'red'},
+               { "cx": (data['B08_X']*10)+500, "cy": (data['B08_Y']*10)+320, "radius": 10, "color": 'red'},
+               { "cx": (data['B09_X']*10)+500, "cy": (data['B09_Y']*10)+320, "radius": 10, "color": 'red'},
+               { "cx": (data['B10_X']*10)+500, "cy": (data['B10_Y']*10)+320, "radius": 10, "color": 'red'},
+               { "cx": (data['B11_X']*10)+500, "cy": (data['B11_Y']*10)+320, "radius": 10, "color": 'red'}
+           ])
+        .enter()
+        .append("circle");
+    
+    var circleAttributes = p
+        .attr("cx", function (d) { return d.cx; })
+        .attr("cy", function (d) { return d.cy; })
+        .attr("r", function (d) { return d.radius; })
+        .style("fill", function (d) { return d.color; });
+    
+    
    
     // display players name
     //-----------------------------------------------------------------------------------//
