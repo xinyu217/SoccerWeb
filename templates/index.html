@@ -20,6 +20,13 @@
             }
 
         </style>
+        
+        <script type="text/javascript">
+            function initPage() {
+                $("#playGameBtn").prop("disabled",true);
+            }
+        
+        </script>
 
 
     <title>{{ t }}</title>
@@ -35,7 +42,7 @@
                  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
                  <![endif]-->
     </head>
-    <body>
+    <body onload="initPage();">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
@@ -67,9 +74,9 @@
 
 
         <!-- This is the play button -->
+        <button type="button" id="LoadBtn" class="btn btn-lg btn-warning" style = "width: 300px; height:80px">Click to Load Data</button>
 
-
-        <button type="button" id="playGameBtn" class="btn btn-lg btn-success" style = "width: 300px; height:80px">PLAY</button>
+        <button type="button" disabled id="playGameBtn" class="btn btn-lg btn-success" style = "width: 300px; height:80px">PLAY</button>
 
 
         
@@ -83,7 +90,6 @@
 <!--        <button type="button" id="retrieveBtn" class="btn btn-lg btn-success">RETRIEVE</button>-->
 
         <BR />
-  
         <BR />
 
         <h3>Time Slider:</h3>
@@ -147,11 +153,32 @@
             $("#nextBtn").click(function() {
  
                                 var t = $('#timeScrub').val();
-                                t = +t + 2;
+                                t = +t + 1;
                                 $('#timeScrub').val(t);
                                 $("#timeScrub").change();
             });
-      });
+        });
+       
+       $(function() {
+         $("#LoadBtn").click(function() {
+                             $(this).text("Loading");
+                             $.ajax({
+                                    type: "GET",
+                                    url: $SCRIPT_ROOT + "/getInitialData/",
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function(data) {
+<!--                                    var t;-->
+<!--                                    t = "Number of Shot Events:" + data['Number'] + "<br/> Timestamp:" + data['G1'] + "; <br/>" + data['G2'] + "; <br/>" + data['G3'] + "; <br/>" + data['G4'] ;-->
+<!--                                    $( "#shotsTxt").text(t);-->
+                                    $("#shotTable").show();
+                                    }
+                            });
+                            $("#LoadBtn").text("Data Loaded Successfully!");
+                            $("#LoadBtn").removeClass("btn btn-lg btn-warning").addClass("btn btn-lg btn-success");
+                            $("#playGameBtn").prop("disabled",false);
+                    });
+         });
+         
 
         $(function() {
           $("#retrieveBtn").click(function() {
@@ -183,11 +210,51 @@
                                          console.log("gets to here")
                                          
                                          }
-                                         });
-                                  });
-                  });
+                                 });
+                    });
+            });
+                  
         </script>
         <button type="button" id="nextBtn" class="btn btn-lg btn-success" style = "display:none">Next FRAME</button>
+        
+<!--        <h3>Shot Events:</h3><h4 id = "shotsTxt"></h4>-->
+
+        <div container id = "shotTable" style="display:none">
+        <h3>Shot Events:</h3>
+        <table class = "table">
+        <thead>
+            <tr>
+                <th class = "text-center">Index</th>
+                <th class = "text-center">Start Timestamp</th>
+                <th class = "text-center">Finish Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>161.7</td>
+                <td>171.7</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>356.9</td>
+                <td>366.9</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>993.4</td>
+                <td>1003.4</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>1905.0</td>
+                <td>1915.0</td>
+            </tr>
+        </tbody>
+        </table>
+        </div>
+        
+        
         
         </div>
 
