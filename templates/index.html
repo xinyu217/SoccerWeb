@@ -97,6 +97,9 @@
  
         <BR />
         <BR />
+        <div id="loading" style = "display:none">
+            <img src="{{ url_for('static', filename='loading-icon.gif') }}" alt="Searching" />
+        </div>
         <BR />
         
 
@@ -168,19 +171,27 @@
        $(function() {
          $("#LoadBtn").click(function() {
                              $(this).text("Loading...");
+                             $("#loading").show();
+                             
                              $.ajax({
                                     type: "GET",
                                     url: $SCRIPT_ROOT + "/getInitialData/",
                                     contentType: "application/json; charset=utf-8",
                                     success: function(data) {
                                         FrameData = data;
+                                        $("#loading").hide();
                                         $("#shotTable").show();
                                         alert("Data Loaded Successfully");
                                         $("#LoadBtn").text("Data Loaded Successfully!");
                                         $("#LoadBtn").removeClass("btn btn-lg btn-warning").addClass("btn btn-lg btn-success");
                                         $("#playGameBtn").prop("disabled",false);
+                                        d3.select("svg").selectAll("circle").remove();
+                                        d3.select("svg").selectAll("Text").remove();
+                                        plotPlayerPos(FrameData.Frame[0]);
+                                    
                                     }
                             });
+                             
                             
                             
                     });
