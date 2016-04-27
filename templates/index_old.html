@@ -103,19 +103,16 @@
         <script type="text/javascript">
             var FrameData;
             var pause = true;
-            var tid = setInterval(updateFrame, 50);
+            var tid = setInterval(updateFrame, 100);
             var index = 0;
-            var goal_frame = 1000;
             
             $(function() {
               $("#playGameBtn").click(function() {
                     pause = !pause;
-                    console.log(index);
                     $(this).text(function(i, text){
                             return text === "PLAY" ? "STOP" : "PLAY";
                     })
                     $(this).toggleClass("btn btn-lg btn-warning");
-                                      
                   });
              });
              
@@ -127,10 +124,7 @@
                      d3.select("svg").selectAll("Text").remove();
                      plotPlayerPos(FrameData.Frame[index]);
                      index = index + 1;
-                     goal_frame = goal_frame + 1;
-                     if (goal_frame==100){
-                         pause = true;
-                     }
+                     console.log(index)
                  }
              }
         
@@ -144,15 +138,35 @@
             $(function() {
               $("#timeScrub").change(function() {
                         // get current time
-                         var inTime = $('#timeScrub').val();
-                         index = parseInt(inTime);
-                         
-                         d3.select("svg").selectAll("circle").remove();
-                         d3.select("svg").selectAll("Text").remove();
-                         plotPlayerPos(FrameData.Frame[index]);
-                         var maxValue = document.getElementById("timeScrub");
-                         maxValue.val = parseInt(inTime)+1;
-                    });
+                        var inTime = $('#timeScrub').val()
+                        $.ajax({
+                               type: "GET",
+                               url: $SCRIPT_ROOT + "/getFrameData/",
+                               contentType: "application/json; charset=utf-8",
+                               data: { time: inTime},
+                               success: function(data) {
+                               
+                               // we need to remove current players and their trajectories
+                               //d3.select("svg").selectAll(".draggableCircleHomeA01").remove();
+
+                               d3.select("svg").selectAll("circle").remove();
+                               d3.select("svg").selectAll("Text").remove();
+                               // function to replot - this is in the moveCircles js file
+                               plotPlayerPos(FrameData.Frame[100]);
+                               
+                               //update the slider with next number
+                            
+                               var maxValue = document.getElementById("timeScrub");
+                               
+                               maxValue.val = parseInt(inTime)+1;
+                               // playing
+                               if (pause == false){
+                                   $("#nextBtn").click();
+                               }
+                               
+                               }
+                               });
+                        });
               });
 
         $(function() {
@@ -220,53 +234,7 @@
                                  });
                     });
             });
-            
-            
-            $(function() {
-            $("#shotBtn1").click(function() {
-                     pause = false;
-                     index = 1617;
-                     d3.select("svg").selectAll("circle").remove();
-                     d3.select("svg").selectAll("Text").remove();
-                     plotPlayerPos(FrameData.Frame[index]);
-                     goal_frame = 0;
-                });
-            });
-
-            $(function() {
-            $("#shotBtn2").click(function() {
-                     pause = false;
-                     index = 3569;
-                     d3.select("svg").selectAll("circle").remove();
-                     d3.select("svg").selectAll("Text").remove();
-                     plotPlayerPos(FrameData.Frame[index]);
-                     goal_frame = 0;
-                                 
-                });
-            });
-
-            $(function() {
-            $("#shotBtn3").click(function() {
-                     pause = false;
-                     index = 9934;
-                     d3.select("svg").selectAll("circle").remove();
-                     d3.select("svg").selectAll("Text").remove();
-                     plotPlayerPos(FrameData.Frame[index]);
-                     goal_frame = 0;
-                });
-            });
-
-            $(function() {
-            $("#shotBtn4").click(function() {
-                     pause = false;
-                     index = 19050;
-                     d3.select("svg").selectAll("circle").remove();
-                     d3.select("svg").selectAll("Text").remove();
-                     plotPlayerPos(FrameData.Frame[index]);
-                     goal_frame = 0;
-                });
-            });
-
+                  
         </script>
         <button type="button" id="nextBtn" class="btn btn-lg btn-success" style = "display:none">Next FRAME</button>
         

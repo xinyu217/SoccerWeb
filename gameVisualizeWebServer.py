@@ -11,8 +11,10 @@ app = Flask(__name__)
 def hello_world():
     return render_template('index.html',t = "Soccer Interface")
 
-DATABASE = "/Users/Felix/Dropbox/SoccerProject/POC-exampleGames/Manchester City v FC Bayern Munchen-20131002/database-bigTable.db"
+#DATABASE = "/Users/Felix/Dropbox/SoccerProject/POC-exampleGames/Manchester City v FC Bayern Munchen-20131002/database-bigTable.db"
 #DATABASE = "/Users/yumengzhu/Felix Dropbox/Dropbox/SoccerProject/POC-exampleGames/Manchester City v FC Bayern Munchen-20131002/database.db"
+DATABASE = "/home/ubuntu/database-bigTable.db"
+
 
 app.config.from_object(__name__)
 
@@ -27,7 +29,7 @@ def get_db():
 
 @app.teardown_appcontext
 def close_connection(exception):
-    db = getattr(g, 'db', None)/Users/Felix/Dropbox/SoccerProject/soccerRoleAssignment
+    db = getattr(g, 'db', None)
     if db is not None:
         db.close()
 
@@ -42,14 +44,6 @@ def execute_query(query, args=()):
 def getInitialData():
     
     
-    #print "number of rows are"
-#    timeStamps = np.unique(rows)
-    #print "number of timeStamps are"
-    #print len(timeStamps)
-    
-#    firstFrameVal = np.min(timeStamps)
-    #print rows[0][0], 0
-    #print type(rows[0])
 
     global t1_data
     t1_data = execute_query("""SELECT A01_Name, A01_X, A01_Y, A02_Name, A02_X, A02_Y, A03_Name, A03_X, A03_Y,A04_Name, A04_X, A04_Y, A05_Name, A05_X, A05_Y, A06_Name, A06_X, A06_Y, A07_Name, A07_X, A07_Y, A08_Name, A08_X, A08_Y, A09_Name, A09_X, A09_Y, A10_Name, A10_X, A10_Y,A11_Name, A11_X, A11_Y FROM mancityVbayern WHERE half = 0   """ )
@@ -60,147 +54,31 @@ def getInitialData():
     global Goal_Time
     Goal_Time = execute_query("""SELECT time FROM mancityVbayern WHERE timeToShot = 10 AND half = 0  """ )
     
-    print Goal_Time
     
-    print len(Goal_Time)
-    outDict = {}
-    outDict["Number"] = len(Goal_Time)
-    outDict["G1"] = Goal_Time[0]
-    outDict["G2"] = Goal_Time[1]
-    outDict["G3"] = Goal_Time[2]
-    outDict["G4"] = Goal_Time[3]
-    return jsonify(outDict)
-#    timeVec = timeStamps
-    # had to change the rows[0] as it was a tuple (0.0,)
-#    firstRow = execute_query("""SELECT * FROM mancityVbayern WHERE time = (?) AND half = (?)""",  (rows[3][0], int(0)) )
-    #print firstRow
-    
-    
-    
-    
-    
-    
-    
-#    playerA01 = execute_query("""SELECT A01_Name text, A01_X real, A01_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerA02 = execute_query("""SELECT A02_Name text, A02_X real, A02_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerA03 = execute_query("""SELECT A03_Name text, A03_X real, A03_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerA04 = execute_query("""SELECT A04_Name text, A04_X real, A04_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerA05 = execute_query("""SELECT A05_Name text, A05_X real, A05_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerA06 = execute_query("""SELECT A06_Name text, A06_X real, A06_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerA07 = execute_query("""SELECT A07_Name text, A07_X real, A07_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerA08 = execute_query("""SELECT A08_Name text, A08_X real, A08_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerA09 = execute_query("""SELECT A09_Name text, A09_X real, A09_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerA10 = execute_query("""SELECT A10_Name text, A10_X real, A10_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerA11 = execute_query("""SELECT A11_Name text, A11_X real, A11_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-
-#    playerB01 = execute_query("""SELECT B01_Name text, B01_X real, B01_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerB02 = execute_query("""SELECT B02_Name text, B02_X real, B02_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerB03 = execute_query("""SELECT B03_Name text, B03_X real, B03_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerB04 = execute_query("""SELECT B04_Name text, B04_X real, B04_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerB05 = execute_query("""SELECT B05_Name text, B05_X real, B05_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerB06 = execute_query("""SELECT B06_Name text, B06_X real, B06_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerB07 = execute_query("""SELECT B07_Name text, B07_X real, B07_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerB08 = execute_query("""SELECT B08_Name text, B08_X real, B08_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerB09 = execute_query("""SELECT B09_Name text, B09_X real, B09_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerB10 = execute_query("""SELECT B10_Name text, B10_X real, B10_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
-#    playerB11 = execute_query("""SELECT B11_Name text, B11_X real, B11_Y real FROM mancityVbayern WHERE time = (? ) AND Half = (? )""",  (rows[0][0], int(0)) )
+#    print len(t1_data)
 
 #    outDict = {}
-#    outDict["A01_Name"] = playerA01[0][0]
-#    outDict["A01_X"] = playerA01[0][1]
-#    outDict["A01_Y"] = playerA01[0][2]
-#
-#    outDict["A02_Name"] = playerA02[0][0]
-#    outDict["A02_X"] = playerA02[0][1]
-#    outDict["A02_Y"] = playerA02[0][2]
-#
-#    outDict["A03_Name"] = playerA03[0][0]
-#    outDict["A03_X"] = playerA03[0][1]
-#    outDict["A03_Y"] = playerA03[0][2]
-#
-#    outDict["A04_Name"] = playerA04[0][0]
-#    outDict["A04_X"] = playerA04[0][1]
-#    outDict["A04_Y"] = playerA04[0][2]
-#
-#    outDict["A05_Name"] = playerA05[0][0]
-#    outDict["A05_X"] = playerA05[0][1]
-#    outDict["A05_Y"] = playerA05[0][2]
-#
-#    outDict["A06_Name"] = playerA06[0][0]
-#    outDict["A06_X"] = playerA06[0][1]
-#    outDict["A06_Y"] = playerA06[0][2]
+#    outDict["Number"] = len(Goal_Time)
+#    outDict["G1"] = Goal_Time[0]
+#    outDict["G2"] = Goal_Time[1]
+#    outDict["G3"] = Goal_Time[2]
+#    outDict["G4"] = Goal_Time[3]
+#    out = [outDict,outDict];
 #    
-#    outDict["A07_Name"] = playerA07[0][0]
-#    outDict["A07_X"] = playerA07[0][1]
-#    outDict["A07_Y"] = playerA07[0][2]
-#
-#    outDict["A08_Name"] = playerA08[0][0]
-#    outDict["A08_X"] = playerA08[0][1]
-#    outDict["A08_Y"] = playerA08[0][2]
 
-#    outDict["A09_Name"] = playerA09[0][0]
-#    outDict["A09_X"] = playerA09[0][1]
-#    outDict["A09_Y"] = playerA09[0][2]
-#
-#    outDict["A10_Name"] = playerA10[0][0]
-#    outDict["A10_X"] = playerA10[0][1]
-#    outDict["A10_Y"] = playerA10[0][2]
-#
-#    outDict["A11_Name"] = playerA11[0][0]
-#    outDict["A11_X"] = playerA11[0][1]
-#    outDict["A11_Y"] = playerA11[0][2]
-#    
-#    outDict["B01_Name"] = playerB01[0][0]
-#    outDict["B01_X"] = playerB01[0][1]
-#    outDict["B01_Y"] = playerB01[0][2]
-#    
-#    outDict["B02_Name"] = playerB02[0][0]
-#    outDict["B02_X"] = playerB02[0][1]
-#    outDict["B02_Y"] = playerB02[0][2]
+#    outDict = {"FrameData":[{"time":"1","name":"a"},{"time":"2","name":"b"}]}
+#    print outDict
+#    outDict["FrameData"].append({"time":"3", "name":"c"})
 
-#    outDict["B03_Name"] = playerB03[0][0]
-#    outDict["B03_X"] = playerB03[0][1]
-#    outDict["B03_Y"] = playerB03[0][2]
-#    
-#    outDict["B04_Name"] = playerB04[0][0]
-#    outDict["B04_X"] = playerB04[0][1]
-#    outDict["B04_Y"] = playerB04[0][2]
-#    
-#    outDict["B05_Name"] = playerB05[0][0]
-#    outDict["B05_X"] = playerB05[0][1]
-#    outDict["B05_Y"] = playerB05[0][2]
-#    
-#    outDict["B06_Name"] = playerB06[0][0]
-#    outDict["B06_X"] = playerB06[0][1]
-#    outDict["B06_Y"] = playerB06[0][2]
-#    
-#    outDict["B07_Name"] = playerB07[0][0]
-#    outDict["B07_X"] = playerB07[0][1]
-#    outDict["B07_Y"] = playerB07[0][2]
+#    print out
 
-#    outDict["B08_Name"] = playerB08[0][0]
-#    outDict["B08_X"] = playerB08[0][1]
-#    outDict["B08_Y"] = playerB08[0][2]
-#    
-#    outDict["B09_Name"] = playerB09[0][0]
-#    outDict["B09_X"] = playerB09[0][1]
-#    outDict["B09_Y"] = playerB09[0][2]
-#    
-#    outDict["B10_Name"] = playerB10[0][0]
-#    outDict["B10_X"] = playerB10[0][1]
-#    outDict["B10_Y"] = playerB10[0][2]
-#
-#    outDict["B11_Name"] = playerB11[0][0]
-#    outDict["B11_X"] = playerB11[0][1]
-#    outDict["B11_Y"] = playerB11[0][2]
+    outDict = {"Frame":[]};
+    for index in range(len(t1_data)):
+        outDict["Frame"].append({"A01_Name":t1_data[index][0], "A01_X":t1_data[index][1], "A01_Y":t1_data[index][2], "A02_Name":t1_data[index][3], "A02_X":t1_data[index][4], "A02_Y":t1_data[index][5], "A03_Name":t1_data[index][6], "A03_X":t1_data[index][7], "A03_Y":t1_data[index][8], "A04_Name":t1_data[index][9], "A04_X":t1_data[index][10], "A04_Y":t1_data[index][11], "A05_Name":t1_data[index][12], "A05_X":t1_data[index][13], "A05_Y":t1_data[index][14], "A06_Name":t1_data[index][15], "A06_X":t1_data[index][16], "A06_Y":t1_data[index][17], "A07_Name":t1_data[index][18], "A07_X":t1_data[index][19], "A07_Y":t1_data[index][20], "A08_Name":t1_data[index][21], "A08_X":t1_data[index][22], "A08_Y":t1_data[index][23], "A09_Name":t1_data[index][24], "A09_X":t1_data[index][25], "A09_Y":t1_data[index][26], "A10_Name":t1_data[index][27], "A10_X":t1_data[index][28], "A10_Y":t1_data[index][29], "A11_Name":t1_data[index][30], "A11_X":t1_data[index][31], "A11_Y":t1_data[index][32],"B01_Name":t2_data[index][0], "B01_X":t2_data[index][1], "B01_Y":t2_data[index][2], "B02_Name":t2_data[index][3], "B02_X":t2_data[index][4], "B02_Y":t2_data[index][5], "B03_Name":t2_data[index][6], "B03_X":t2_data[index][7], "B03_Y":t2_data[index][8], "B04_Name":t2_data[index][9], "B04_X":t2_data[index][10], "B04_Y":t2_data[index][11], "B05_Name":t2_data[index][12], "B05_X":t2_data[index][13], "B05_Y":t2_data[index][14], "B06_Name":t2_data[index][15], "B06_X":t2_data[index][16], "B06_Y":t2_data[index][17], "B07_Name":t2_data[index][18], "B07_X":t2_data[index][19], "B07_Y":t2_data[index][20], "B08_Name":t2_data[index][21], "B08_X":t2_data[index][22], "B08_Y":t2_data[index][23], "B09_Name":t2_data[index][24], "B09_X":t2_data[index][25], "B09_Y":t2_data[index][26], "B10_Name":t2_data[index][27], "B10_X":t2_data[index][28], "B10_Y":t2_data[index][29], "B11_Name":t2_data[index][30], "B11_X":t2_data[index][31], "B11_Y":t2_data[index][32],"time":index})
+#        print 'Current fruit :', fruits[index]
 
-#    outDict["time"] = rows[0]
-#    # give the next time
-#    outDict["nextTime"] = rows[1]
-#    
-#    outDict["firstFrameTime"]= rows[0]
-#    outDict["lastFrameTime"] = rows[len(rows)-1]
-#    outDict["noFrames"] = 28000
+#    print outDict
+    return jsonify(outDict)
 
 
     # this will put this as a JSON object
@@ -304,6 +182,17 @@ def getFrameData():
     outDict["B11_Name"] = t2_data[frameNo][30]
     outDict["B11_X"] = t2_data[frameNo][31]
     outDict["B11_Y"] = t2_data[frameNo][32]
+
+    outDict["time"] = nextTime
+    # give the next time
+    outDict["nextTime"] = nextTime+0.1
+    
+    outDict["firstFrameTime"]= nextTime
+    outDict["lastFrameTime"] = nextTime
+    #   timeStamps = np.unique(rows)
+    outDict["noFrames"] = 28000
+    
+    return jsonify(outDict)
     
 #    dataT1 = execute_query("""SELECT * FROM mancityVbayern WHERE time = (? ) AND half = (? ) AND clubName = "Manchester City" """,  (nextTime, "First Half") )
 #    
@@ -398,16 +287,7 @@ def getFrameData():
 #    outDict["B11_X"] = dataT2[10][4]
 #    outDict["B11_Y"] = dataT2[10][5]
 
-    outDict["time"] = nextTime
-    # give the next time
-    outDict["nextTime"] = nextTime+0.1
-    
-    outDict["firstFrameTime"]= nextTime
-    outDict["lastFrameTime"] = nextTime
-    #   timeStamps = np.unique(rows)
-    outDict["noFrames"] = 28000
 
-    return jsonify(outDict)
 
 # -------------- end of this function ------------------
 
