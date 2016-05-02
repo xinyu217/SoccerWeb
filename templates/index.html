@@ -66,8 +66,6 @@
             X-axis:<input type="checkbox" id="xChecked" checked/>
             Y-axis:<input type="checkbox" id="yChecked" checked/>
         </div> -->
-        
-        <!--<input type="range" id="timeScrub" value="0" min="0" max="20000"  onchange="updateTextInput(this.value);" form="gameSelect" style="width:720px;position:fixed;top:770px;left:250px;"/> -->
 
         
 <!--        <input type="range" id="trajLength" value="3" min="1" max="5" style="width:150px;position:fixed;top:770px;left:50px;"/>-->
@@ -77,6 +75,8 @@
         <button type="button" id="LoadBtn" class="btn btn-lg btn-warning" style = "width: 300px; height:80px">Click to Load Data</button>
 
         <button type="button" disabled id="playGameBtn" class="btn btn-lg btn-success" style = "width: 300px; height:80px">PLAY</button>
+        
+        <button type="button" disabled id="roleBtn" class="btn btn-lg btn-success" style = "width: 300px; height:80px">Show Role</button>
 
 
         
@@ -93,7 +93,7 @@
         <BR />
 
         <h3>Time Slider:</h3>
-        <input type="range" id="timeScrub" value="0" min="0" max="28000" step="1" form="gameSelect"/>
+        <input type="range" id="timeScrub" value="0" min="0" max="5000" step="1" form="gameSelect"/>
  
         <BR />
         <BR />
@@ -109,11 +109,11 @@
             var tid = setInterval(updateFrame, 50);
             var index = 0;
             var goal_frame = 1000;
+            var role_flag = true;
             
             $(function() {
               $("#playGameBtn").click(function() {
                     pause = !pause;
-                    console.log(index);
                     $(this).text(function(i, text){
                             return text === "PLAY" ? "STOP" : "PLAY";
                     })
@@ -121,16 +121,31 @@
                                       
                   });
              });
-             
+
+
+            $(function() {
+              $("#roleBtn").click(function() {
+                          role_flag = !role_flag;
+                          $(this).text(function(i, text){
+                                       return text === "Show Role" ? "Show ID" : "Show Role";
+                                       })
+                          $(this).toggleClass("btn btn-lg btn-warning");
+                          d3.select("svg").selectAll("circle").remove();
+                          d3.select("svg").selectAll("Text").remove();
+                          plotPlayerPos(FrameData.Frame[index],role_flag);
+                          });
+              });
+  
              // set interval
 
              function updateFrame() {
                  if (pause == false){
                      d3.select("svg").selectAll("circle").remove();
                      d3.select("svg").selectAll("Text").remove();
-                     plotPlayerPos(FrameData.Frame[index]);
+                     plotPlayerPos(FrameData.Frame[index],role_flag);
                      index = index + 1;
                      goal_frame = goal_frame + 1;
+                     $('#timeScrub').val(index);
                      if (goal_frame==100){
                          pause = true;
                      }
@@ -147,14 +162,16 @@
             $(function() {
               $("#timeScrub").change(function() {
                         // get current time
+                       
                          var inTime = $('#timeScrub').val();
                          index = parseInt(inTime);
                          
                          d3.select("svg").selectAll("circle").remove();
                          d3.select("svg").selectAll("Text").remove();
-                         plotPlayerPos(FrameData.Frame[index]);
+                         plotPlayerPos(FrameData.Frame[index],role_flag);
                          var maxValue = document.getElementById("timeScrub");
                          maxValue.val = parseInt(inTime)+1;
+                         
                     });
               });
 
@@ -185,9 +202,10 @@
                                         $("#LoadBtn").text("Data Loaded Successfully!");
                                         $("#LoadBtn").removeClass("btn btn-lg btn-warning").addClass("btn btn-lg btn-success");
                                         $("#playGameBtn").prop("disabled",false);
+                                        $("#roleBtn").prop("disabled",false);
                                         d3.select("svg").selectAll("circle").remove();
                                         d3.select("svg").selectAll("Text").remove();
-                                        plotPlayerPos(FrameData.Frame[0]);
+                                        plotPlayerPos(FrameData.Frame[0],role_flag);
                                     
                                     }
                             });
@@ -239,7 +257,7 @@
                      index = 1617;
                      d3.select("svg").selectAll("circle").remove();
                      d3.select("svg").selectAll("Text").remove();
-                     plotPlayerPos(FrameData.Frame[index]);
+                     plotPlayerPos(FrameData.Frame[index],role_flag);
                      goal_frame = 0;
                 });
             });
@@ -250,7 +268,7 @@
                      index = 3569;
                      d3.select("svg").selectAll("circle").remove();
                      d3.select("svg").selectAll("Text").remove();
-                     plotPlayerPos(FrameData.Frame[index]);
+                     plotPlayerPos(FrameData.Frame[index],role_flag);
                      goal_frame = 0;
                                  
                 });
@@ -262,21 +280,21 @@
                      index = 9934;
                      d3.select("svg").selectAll("circle").remove();
                      d3.select("svg").selectAll("Text").remove();
-                     plotPlayerPos(FrameData.Frame[index]);
+                     plotPlayerPos(FrameData.Frame[index],role_flag);
                      goal_frame = 0;
                 });
             });
 
-            $(function() {
-            $("#shotBtn4").click(function() {
-                     pause = false;
-                     index = 19050;
-                     d3.select("svg").selectAll("circle").remove();
-                     d3.select("svg").selectAll("Text").remove();
-                     plotPlayerPos(FrameData.Frame[index]);
-                     goal_frame = 0;
-                });
-            });
+<!--            $(function() {-->
+<!--            $("#shotBtn4").click(function() {-->
+<!--                     pause = false;-->
+<!--                     index = 19050;-->
+<!--                     d3.select("svg").selectAll("circle").remove();-->
+<!--                     d3.select("svg").selectAll("Text").remove();-->
+<!--                     plotPlayerPos(FrameData.Frame[index],role_flag);-->
+<!--                     goal_frame = 0;-->
+<!--                });-->
+<!--            });-->
 
         </script>
         <button type="button" id="nextBtn" class="btn btn-lg btn-success" style = "display:none">Next FRAME</button>
@@ -306,18 +324,18 @@
                 <td>366.9</td>
                 <td><button type="button" id="shotBtn2" class="btn btn-lg btn-success">Play Shot</button></td>
             </tr>
-            <tr>
-                <td>3</td>
-                <td>993.4</td>
-                <td>1003.4</td>
-                <td><button type="button" id="shotBtn3" class="btn btn-lg btn-success">Play Shot</button></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>1905.0</td>
-                <td>1915.0</td>
-                <td><button type="button" id="shotBtn4" class="btn btn-lg btn-success">Play Shot</button></td>
-            </tr>
+<!--            <tr>-->
+<!--                <td>3</td>-->
+<!--                <td>993.4</td>-->
+<!--                <td>1003.4</td>-->
+<!--                <td><button type="button" id="shotBtn3" class="btn btn-lg btn-success">Play Shot</button></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>4</td>-->
+<!--                <td>1905.0</td>-->
+<!--                <td>1915.0</td>-->
+<!--                <td><button type="button" id="shotBtn4" class="btn btn-lg btn-success">Play Shot</button></td>-->
+<!--            </tr>-->
         </tbody>
         </table>
         </div>

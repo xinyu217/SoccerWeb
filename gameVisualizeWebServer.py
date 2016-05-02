@@ -1,6 +1,7 @@
 import csv
 import sqlite3
 #import numpy as np
+import json
 
 from flask import Flask, request, g, render_template, jsonify, url_for, Response, url_for, flash,session
 
@@ -11,9 +12,9 @@ app = Flask(__name__)
 def hello_world():
     return render_template('index.html',t = "Soccer Interface")
 
-#DATABASE = "/Users/Felix/Dropbox/SoccerProject/POC-exampleGames/Manchester City v FC Bayern Munchen-20131002/database-bigTable.db"
+DATABASE = "/Users/Felix/Dropbox/SoccerProject/POC-exampleGames/Manchester City v FC Bayern Munchen-20131002/database-bigTable.db"
 #DATABASE = "/Users/yumengzhu/Felix Dropbox/Dropbox/SoccerProject/POC-exampleGames/Manchester City v FC Bayern Munchen-20131002/database.db"
-DATABASE = "/home/ubuntu/database-bigTable.db"
+#DATABASE = "/home/ubuntu/database-bigTable.db"
 
 
 app.config.from_object(__name__)
@@ -72,12 +73,21 @@ def getInitialData():
 
 #    print out
 
+    with open("role.json") as json_file:
+        role_data = json.load(json_file)
+
+    print role_data["Frame"][0]["A01_Role"]
+
     outDict = {"Frame":[]};
-    for index in range(len(t1_data)):
-        outDict["Frame"].append({"A01_Name":t1_data[index][0], "A01_X":t1_data[index][1], "A01_Y":t1_data[index][2], "A02_Name":t1_data[index][3], "A02_X":t1_data[index][4], "A02_Y":t1_data[index][5], "A03_Name":t1_data[index][6], "A03_X":t1_data[index][7], "A03_Y":t1_data[index][8], "A04_Name":t1_data[index][9], "A04_X":t1_data[index][10], "A04_Y":t1_data[index][11], "A05_Name":t1_data[index][12], "A05_X":t1_data[index][13], "A05_Y":t1_data[index][14], "A06_Name":t1_data[index][15], "A06_X":t1_data[index][16], "A06_Y":t1_data[index][17], "A07_Name":t1_data[index][18], "A07_X":t1_data[index][19], "A07_Y":t1_data[index][20], "A08_Name":t1_data[index][21], "A08_X":t1_data[index][22], "A08_Y":t1_data[index][23], "A09_Name":t1_data[index][24], "A09_X":t1_data[index][25], "A09_Y":t1_data[index][26], "A10_Name":t1_data[index][27], "A10_X":t1_data[index][28], "A10_Y":t1_data[index][29], "A11_Name":t1_data[index][30], "A11_X":t1_data[index][31], "A11_Y":t1_data[index][32],"B01_Name":t2_data[index][0], "B01_X":t2_data[index][1], "B01_Y":t2_data[index][2], "B02_Name":t2_data[index][3], "B02_X":t2_data[index][4], "B02_Y":t2_data[index][5], "B03_Name":t2_data[index][6], "B03_X":t2_data[index][7], "B03_Y":t2_data[index][8], "B04_Name":t2_data[index][9], "B04_X":t2_data[index][10], "B04_Y":t2_data[index][11], "B05_Name":t2_data[index][12], "B05_X":t2_data[index][13], "B05_Y":t2_data[index][14], "B06_Name":t2_data[index][15], "B06_X":t2_data[index][16], "B06_Y":t2_data[index][17], "B07_Name":t2_data[index][18], "B07_X":t2_data[index][19], "B07_Y":t2_data[index][20], "B08_Name":t2_data[index][21], "B08_X":t2_data[index][22], "B08_Y":t2_data[index][23], "B09_Name":t2_data[index][24], "B09_X":t2_data[index][25], "B09_Y":t2_data[index][26], "B10_Name":t2_data[index][27], "B10_X":t2_data[index][28], "B10_Y":t2_data[index][29], "B11_Name":t2_data[index][30], "B11_X":t2_data[index][31], "B11_Y":t2_data[index][32],"time":index})
+    for index in range(5000):
+        outDict["Frame"].append({"A01_Name":t1_data[index][0],"A01_Role":role_data["Frame"][index]["A01_Role"], "A01_X":t1_data[index][1], "A01_Y":t1_data[index][2], "A02_Name":t1_data[index][3],"A02_Role":role_data["Frame"][index]["A02_Role"], "A02_X":t1_data[index][4], "A02_Y":t1_data[index][5], "A03_Name":t1_data[index][6],"A03_Role":role_data["Frame"][index]["A03_Role"], "A03_X":t1_data[index][7], "A03_Y":t1_data[index][8], "A04_Name":t1_data[index][9],"A04_Role":role_data["Frame"][index]["A04_Role"], "A04_X":t1_data[index][10], "A04_Y":t1_data[index][11], "A05_Name":t1_data[index][12],"A05_Role":role_data["Frame"][index]["A05_Role"], "A05_X":t1_data[index][13], "A05_Y":t1_data[index][14], "A06_Name":t1_data[index][15],"A06_Role":role_data["Frame"][index]["A06_Role"], "A06_X":t1_data[index][16], "A06_Y":t1_data[index][17], "A07_Name":t1_data[index][18],"A07_Role":role_data["Frame"][index]["A07_Role"], "A07_X":t1_data[index][19], "A07_Y":t1_data[index][20], "A08_Name":t1_data[index][21],"A08_Role":role_data["Frame"][index]["A08_Role"], "A08_X":t1_data[index][22], "A08_Y":t1_data[index][23], "A09_Name":t1_data[index][24],"A09_Role":role_data["Frame"][index]["A09_Role"], "A09_X":t1_data[index][25], "A09_Y":t1_data[index][26], "A10_Name":t1_data[index][27],"A10_Role":role_data["Frame"][index]["A10_Role"], "A10_X":t1_data[index][28], "A10_Y":t1_data[index][29], "A11_Name":t1_data[index][30],"A11_Role":role_data["Frame"][index]["A11_Role"], "A11_X":t1_data[index][31], "A11_Y":t1_data[index][32],"B01_Name":t2_data[index][0],"B01_Role":role_data["Frame"][index]["B01_Role"], "B01_X":t2_data[index][1], "B01_Y":t2_data[index][2], "B02_Name":t2_data[index][3],"B02_Role":role_data["Frame"][index]["B02_Role"], "B02_X":t2_data[index][4], "B02_Y":t2_data[index][5], "B03_Name":t2_data[index][6],"B03_Role":role_data["Frame"][index]["B03_Role"], "B03_X":t2_data[index][7], "B03_Y":t2_data[index][8], "B04_Name":t2_data[index][9],"B04_Role":role_data["Frame"][index]["B04_Role"], "B04_X":t2_data[index][10], "B04_Y":t2_data[index][11], "B05_Name":t2_data[index][12],"B05_Role":role_data["Frame"][index]["B05_Role"], "B05_X":t2_data[index][13], "B05_Y":t2_data[index][14], "B06_Name":t2_data[index][15],"B06_Role":role_data["Frame"][index]["B06_Role"], "B06_X":t2_data[index][16], "B06_Y":t2_data[index][17], "B07_Name":t2_data[index][18],"B07_Role":role_data["Frame"][index]["B07_Role"], "B07_X":t2_data[index][19], "B07_Y":t2_data[index][20], "B08_Name":t2_data[index][21],"B08_Role":role_data["Frame"][index]["B08_Role"], "B08_X":t2_data[index][22], "B08_Y":t2_data[index][23], "B09_Name":t2_data[index][24],"B09_Role":role_data["Frame"][index]["B09_Role"], "B09_X":t2_data[index][25], "B09_Y":t2_data[index][26], "B10_Name":t2_data[index][27],"B10_Role":role_data["Frame"][index]["B10_Role"], "B10_X":t2_data[index][28], "B10_Y":t2_data[index][29], "B11_Name":t2_data[index][30],"B11_Role":role_data["Frame"][index]["B11_Role"], "B11_X":t2_data[index][31], "B11_Y":t2_data[index][32],"time":index})
 #        print 'Current fruit :', fruits[index]
 
 #    print outDict
+
+#    with open('data.json', 'w') as outfile:
+#        json.dump(outDict, outfile)
+
     return jsonify(outDict)
 
 
