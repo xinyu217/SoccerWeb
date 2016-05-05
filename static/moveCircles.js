@@ -802,6 +802,58 @@ function plotPlayerPos(data,role_flag) {
 }
 
 
+function plotRolePos(data) {
+    console.log("test");
+
+
+    var c = ['red','green','blue','black','yellow','violet','tomato','slateblue','Sienna','seagreen','salmon'];
+    var temp = [];
+
+    
+    
+    for (i = 0; i < data.Frame.length; i++) {
+        ux = data.Frame[i]['ux'];
+        uy = data.Frame[i]['uy'];
+        obj = { "cx": ((data.Frame[i]['A01_X']-ux)*10)+525, "cy": ((data.Frame[i]['A01_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A01_Role']]}
+        temp.push(obj)
+        obj = { "cx": ((data.Frame[i]['A02_X']-ux)*10)+525, "cy": ((data.Frame[i]['A02_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A02_Role']]}
+        temp.push(obj)
+        obj = { "cx": ((data.Frame[i]['A03_X']-ux)*10)+525, "cy": ((data.Frame[i]['A03_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A03_Role']]}
+        temp.push(obj)
+        obj = { "cx": ((data.Frame[i]['A04_X']-ux)*10)+525, "cy": ((data.Frame[i]['A04_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A04_Role']]}
+        temp.push(obj)
+        obj = { "cx": ((data.Frame[i]['A05_X']-ux)*10)+525, "cy": ((data.Frame[i]['A05_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A05_Role']]}
+        temp.push(obj)
+        obj = { "cx": ((data.Frame[i]['A06_X']-ux)*10)+525, "cy": ((data.Frame[i]['A06_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A06_Role']]}
+        temp.push(obj)
+        obj = { "cx": ((data.Frame[i]['A07_X']-ux)*10)+525, "cy": ((data.Frame[i]['A07_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A07_Role']]}
+        temp.push(obj)
+        obj = { "cx": ((data.Frame[i]['A08_X']-ux)*10)+525, "cy": ((data.Frame[i]['A08_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A08_Role']]}
+        temp.push(obj)
+        obj = { "cx": ((data.Frame[i]['A09_X']-ux)*10)+525, "cy": ((data.Frame[i]['A09_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A09_Role']]}
+        temp.push(obj)
+        obj = { "cx": ((data.Frame[i]['A10_X']-ux)*10)+525, "cy": ((data.Frame[i]['A10_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A10_Role']]}
+        temp.push(obj)
+        obj = { "cx": ((data.Frame[i]['A11_X']-ux)*10)+525, "cy": ((data.Frame[i]['A11_Y']-uy)*10)+340, "radius": 5, "color": c[data.Frame[i]['A11_Role']]}
+        temp.push(obj)
+        
+    }
+
+    
+    var p = svg.selectAll("circle")
+    .data(temp)
+    .enter()
+    .append("circle");
+    
+    var circleAttributes = p
+    .attr("cx", function (d) { return d.cx; })
+    .attr("cy", function (d) { return d.cy; })
+    .attr("r", function (d) { return d.radius; })
+    .style("fill", function (d) { return d.color; });
+
+}
+
+
 
 
 
