@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <style type="text/css">
+            svg {
+
+                border: solid 1px #aaa;
+                background-image: url("{{ url_for('static', filename='soccerGrassField.png') }}");
+                height: 680px;
+                width: 1050px;
+                position: relative;
+                left: 50%;
+                -webkit-transform: translateX(-50%);
+                -ms-transform: translateX(-50%);
+                transform: translateX(-50%);
+            }
+
+        </style>
+        
+        <script type="text/javascript">
+            function initPage() {
+                $("#playGameBtn").prop("disabled",true);
+            }
+        
+        </script>
+
+
+    <title>Formation Analysis</title>
+
+            <!-- Bootstrap -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css">
+                
+                <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+                <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+                <!--[if lt IE 9]>
+                 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+                 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+                 <![endif]-->
+    </head>
+    <body onload="initPage();">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+        <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+        
+        <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+        
+        
+        
+        <div class = "container vertical-center text-center">
+        
+        <h1>Formation Analysis</h1>
+        <script type="text/javascript" src="{{ url_for('static', filename='moveCircles.js') }}"></script>
+
+
+        
+        
+        <button type="button" id="LoadBtn" class="btn btn-lg btn-warning" style = "width: 250px; height:80px">Click to Load Data</button>
+        
+<!--        <button type="button" disabled id="playGameBtn" class="btn btn-lg btn-success" style = "width: 250px; height:80px">PLAY</button>-->
+
+        <button type="button" id="formationBtn" class="btn btn-lg btn-success" style = "width: 250px; height:80px">Plot Global Formation</button>
+            
+
+        <BR />
+        <BR />
+
+<!--        <h3>Time Slider:</h3>-->
+<!--        <input type="range" id="timeScrub" value="0" min="0" max="4999" step="1" form="gameSelect"/>-->
+<!-- -->
+        <BR />
+        <BR />
+        <div id="loading" style = "display:none">
+            <img src="{{ url_for('static', filename='loading-icon.gif') }}" alt="Searching" />
+        </div>
+        <BR />
+        
+
+        <script type="text/javascript">
+            var FrameData;
+            var pause = true;
+            var tid = setInterval(updateFrame, 50);
+            var index = 0;
+            var goal_frame = 1000;
+            var role_flag = true;
+            
+<!--            $(function() {-->
+<!--              $("#playGameBtn").click(function() {-->
+<!--                    pause = !pause;-->
+<!--                    $(this).text(function(i, text){-->
+<!--                            return text === "PLAY" ? "STOP" : "PLAY";-->
+<!--                    })-->
+<!--                    $(this).toggleClass("btn btn-lg btn-warning");-->
+<!--                                      -->
+<!--                  });-->
+<!--             });-->
+
+
+            $(function() {
+              $("#formationBtn").click(function() {
+                                       console.log("Formation Test");
+                                       d3.select("svg").selectAll("circle").remove();
+                                       d3.select("svg").selectAll("Text").remove();
+                                       plotRolePos(FrameData);
+<!--                          plotPlayerPos(FrameData.Frame[index],role_flag);-->
+                                
+                          });
+              });
+  
+             // set interval
+
+             function updateFrame() {
+                 if (pause == false){
+                     d3.select("svg").selectAll("circle").remove();
+                     d3.select("svg").selectAll("Text").remove();
+                     plotPlayerPos(FrameData.Frame[index],role_flag);
+                     index = index + 1;
+                     goal_frame = goal_frame + 1;
+                     if (goal_frame==100){
+                         pause = true;
+                     }
+                 }
+             }
+        
+             function abortTimer() { // to be called when you want to stop the timer
+                clearInterval(tid);
+             }
+             
+             
+             
+
+<!--            $(function() {-->
+<!--              $("#timeScrub").change(function() {-->
+<!--                        // get current time-->
+<!--                         -->
+<!--                         var inTime = $('#timeScrub').val();-->
+<!--                         index = parseInt(inTime);-->
+<!--                         -->
+<!--                         d3.select("svg").selectAll("circle").remove();-->
+<!--                         d3.select("svg").selectAll("Text").remove();-->
+<!--                         plotPlayerPos(FrameData.Frame[index],role_flag);-->
+<!--                         var maxValue = document.getElementById("timeScrub");-->
+<!--                         maxValue.val = parseInt(inTime)+1;-->
+<!--                         -->
+<!--                    });-->
+<!--              });-->
+
+
+       
+       $(function() {
+         $("#LoadBtn").click(function() {
+                             $(this).text("Loading...");
+                             $("#loading").show();
+                             
+                             $.ajax({
+                                    type: "GET",
+                                    url: $SCRIPT_ROOT + "/getInitialData/",
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function(data) {
+                                        FrameData = data;
+                                        $("#loading").hide();
+                                        $("#shotTable").show();
+                                        alert("Data Loaded Successfully");
+                                        $("#LoadBtn").text("Data Loaded Successfully!");
+                                        $("#LoadBtn").removeClass("btn btn-lg btn-warning").addClass("btn btn-lg btn-success");
+                                        $("#playGameBtn").prop("disabled",false);
+                                        $("#roleBtn").prop("disabled",false);
+                                        d3.select("svg").selectAll("circle").remove();
+                                        d3.select("svg").selectAll("Text").remove();
+                                        plotPlayerPos(FrameData.Frame[0],role_flag);
+                                    
+                                    }
+                            });
+                             
+                            
+                            
+                    });
+         });
+         
+
+        </script>
+
+        
+        </div>
+
+    </body>
+    
+</html>

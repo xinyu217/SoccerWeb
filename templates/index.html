@@ -72,11 +72,21 @@
 
 
         <!-- This is the play button -->
-        <button type="button" id="LoadBtn" class="btn btn-lg btn-warning" style = "width: 300px; height:80px">Click to Load Data</button>
 
-        <button type="button" disabled id="playGameBtn" class="btn btn-lg btn-success" style = "width: 300px; height:80px">PLAY</button>
         
-        <button type="button" disabled id="roleBtn" class="btn btn-lg btn-success" style = "width: 300px; height:80px">Show Role</button>
+        
+        <form action="{{ url_for('formation')}}" method=post>
+            <button type="button" id="LoadBtn" class="btn btn-lg btn-warning" style = "width: 250px; height:80px">Click to Load Data</button>
+            
+            <button type="button" disabled id="playGameBtn" class="btn btn-lg btn-success" style = "width: 250px; height:80px">PLAY</button>
+            
+            <button type="button" disabled id="roleBtn" class="btn btn-lg btn-success" style = "width: 250px; height:80px">Display Role (Toggle)</button>
+            
+            <input type="submit" class = "btn btn-lg btn-success" style = "width: 250px; height:80px" value="Formation Analysis">
+        </form>
+        
+
+<!--        <button type="button" id="formationBtn" class="btn btn-lg btn-success" style = "width: 250px; height:80px">Formation Analysis</button>-->
 
 
         
@@ -93,7 +103,7 @@
         <BR />
 
         <h3>Time Slider:</h3>
-        <input type="range" id="timeScrub" value="0" min="0" max="5000" step="1" form="gameSelect"/>
+        <input type="range" id="timeScrub" value="0" min="0" max="4999" step="1" form="gameSelect"/>
  
         <BR />
         <BR />
@@ -127,7 +137,7 @@
               $("#roleBtn").click(function() {
                           role_flag = !role_flag;
                           $(this).text(function(i, text){
-                                       return text === "Show Role" ? "Show ID" : "Show Role";
+                                       return text === "Display Role (Toggle)" ? "Display ID (Toggle)" : "Display Role (Toggle)";
                                        })
                           $(this).toggleClass("btn btn-lg btn-warning");
                           d3.select("svg").selectAll("circle").remove();
@@ -145,7 +155,7 @@
                      plotPlayerPos(FrameData.Frame[index],role_flag);
                      index = index + 1;
                      goal_frame = goal_frame + 1;
-                     $('#timeScrub').val(index);
+<!--                     $('#timeScrub').val(index);-->
                      if (goal_frame==100){
                          pause = true;
                      }
@@ -162,7 +172,7 @@
             $(function() {
               $("#timeScrub").change(function() {
                         // get current time
-                       
+                         
                          var inTime = $('#timeScrub').val();
                          index = parseInt(inTime);
                          
@@ -234,22 +244,20 @@
           });
       
 
-            $(function() {
-                  $("#predictionBtn").click(function() {
-                                  $.ajax({
-                                         type: "GET",
-                                         url: $SCRIPT_ROOT + "/doPrediction/",
-                                         contentType: "application/json; charset=utf-8",
-                                         data: { value: "10"},
-                                         success: function(data) {
-                                         //
-                                         console.log("gets to here")
-                                         
-                                         }
-                                 });
-                    });
-            });
-            
+<!--            $(function() {-->
+<!--                  $("#formationBtn").click(function() {-->
+<!--                                  $.ajax({-->
+<!--                                         type: "GET",-->
+<!--                                         url: $SCRIPT_ROOT + "/formation/",-->
+<!--                                         contentType: "application/json; charset=utf-8",-->
+<!--                                         success: function(data) {-->
+<!---->
+<!--                                         -->
+<!--                                         }-->
+<!--                                 });-->
+<!--                    });-->
+<!--            });-->
+
             
             $(function() {
             $("#shotBtn1").click(function() {
@@ -274,16 +282,16 @@
                 });
             });
 
-            $(function() {
-            $("#shotBtn3").click(function() {
-                     pause = false;
-                     index = 9934;
-                     d3.select("svg").selectAll("circle").remove();
-                     d3.select("svg").selectAll("Text").remove();
-                     plotPlayerPos(FrameData.Frame[index],role_flag);
-                     goal_frame = 0;
-                });
-            });
+<!--            $(function() {-->
+<!--            $("#shotBtn3").click(function() {-->
+<!--                     pause = false;-->
+<!--                     index = 9934;-->
+<!--                     d3.select("svg").selectAll("circle").remove();-->
+<!--                     d3.select("svg").selectAll("Text").remove();-->
+<!--                     plotPlayerPos(FrameData.Frame[index],role_flag);-->
+<!--                     goal_frame = 0;-->
+<!--                });-->
+<!--            });-->
 
 <!--            $(function() {-->
 <!--            $("#shotBtn4").click(function() {-->
@@ -302,13 +310,13 @@
 <!--        <h3>Shot Events:</h3><h4 id = "shotsTxt"></h4>-->
 
         <div container id = "shotTable" style="display:none">
-        <h3>Shot Events:</h3>
         <table class = "table">
         <thead>
             <tr>
-                <th class = "text-center">Index</th>
+                <th class = "text-center">Shot Index</th>
                 <th class = "text-center">Start Timestamp</th>
                 <th class = "text-center">Finish Timestamp</th>
+                <th class = "text-center">Click to View</th>
             </tr>
         </thead>
         <tbody>
