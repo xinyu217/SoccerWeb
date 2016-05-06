@@ -67,6 +67,10 @@
         <button type="button" id="formationBtn" class="btn btn-lg btn-success" style = "width: 250px; height:80px">Plot Global Formation</button>
             
 
+        <button type="button" id="offenseBtn" class="btn btn-lg btn-success" style = "width: 250px; height:80px">Offensive Formation</button>
+        
+        
+        <button type="button" id="defenseBtn" class="btn btn-lg btn-success" style = "width: 250px; height:80px">Defensive Formation</button>
         <BR />
         <BR />
 
@@ -103,13 +107,26 @@
 
             $(function() {
               $("#formationBtn").click(function() {
-                                       console.log("Formation Test");
+                                   d3.select("svg").selectAll("circle").remove();
+                                   d3.select("svg").selectAll("Text").remove();
+                                   plotRolePos(FrameData,'C');
+                          });
+              });
+              
+              $(function() {
+                $("#offenseBtn").click(function() {
+                                         d3.select("svg").selectAll("circle").remove();
+                                         d3.select("svg").selectAll("Text").remove();
+                                         plotRolePos(FrameData,'A');
+                                         });
+                });
+                
+            $(function() {
+              $("#defenseBtn").click(function() {
                                        d3.select("svg").selectAll("circle").remove();
                                        d3.select("svg").selectAll("Text").remove();
-                                       plotRolePos(FrameData);
-<!--                          plotPlayerPos(FrameData.Frame[index],role_flag);-->
-                                
-                          });
+                                       plotRolePos(FrameData,'B');
+                                       });
               });
   
              // set interval
